@@ -16,7 +16,7 @@
                                     <h4 class="card-title">GYM Information</h4>
                                 </div>
                                 <div class="col-2 text-right" style="display: -webkit-box;">
-                                    <a  style="margin-left: -23px;" class="btn btn-outline-primary btn-fw" href="{{ path('app_gym_index') }}">Back</a>
+                                    <a  style="margin-left: -40px;" class="btn btn-outline-primary btn-fw" href="{{ path('app_gym_index') }}">Back</a>
                                 </div>
                             </div>
                             <div class="row align-items-center">
@@ -33,15 +33,22 @@
 
                             <p class="card-description">  </p>
 
-                            {{ form_start(form ,  {'attr' : {'novalidate' : 'novalidate'}}) }}
+
                             <div class="form-group">
-                                <label for="exampleInputUsername1">localisation</label>
+                                <label for="exampleInputUsername1">location : </label>
                                 {{ form_widget(form.location , {'attr' : {'class' : 'form-control' }}) }}
                             </div>
+
+                            {{ form_start(form ,  {'attr' : {'novalidate' : 'novalidate'}}) }}
+
+
                             <div class="form-group">
-                                <label for="exampleInputPassword1">facilities</label>
+                                <label for="exampleInputPassword1">facilities : </label>
                                 {{ form_widget(form.facilities , {'attr' : {'class' : 'form-control' }}) }}
                             </div>
+
+
+
                             <button type="submit" class="btn btn-outline-primary btn-fw">{{ button_label|default('create') }}</button>
                             {{ form_end(form) }}
 

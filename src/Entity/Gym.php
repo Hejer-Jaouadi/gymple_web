@@ -26,6 +26,8 @@ class Gym
     private $location;
 
     /**
+     * @Assert\NotBlank
+     *  @Assert\Regex(pattern="/\d/",match=false,message="facilities cannot contain a number")
      * @ORM\Column(type="string", length=255)
      */
     private $facilities;
