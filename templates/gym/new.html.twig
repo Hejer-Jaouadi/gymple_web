@@ -19,17 +19,7 @@
                                     <a  style="margin-left: -40px;" class="btn btn-outline-primary btn-fw" href="{{ path('app_gym_index') }}">Back</a>
                                 </div>
                             </div>
-                            <div class="row align-items-center">
-                                <div class="col-12">
-                                    {% if not form.vars.valid %}
-                                        {% for child in  form.children %}
-                                            {% for error in child.vars.errors %}
-                                                <div class="alert alert-danger">{{ error.message }}</div>
-                                            {% endfor %}
-                                        {% endfor %}
-                                    {% endif %}
-                                </div>
-                            </div>
+
 
                             <p class="card-description">  </p>
 
@@ -41,12 +31,22 @@
 
                             {{ form_start(form ,  {'attr' : {'novalidate' : 'novalidate'}}) }}
 
+                            <div class="row align-items-center">
 
+                            </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">facilities : </label>
                                 {{ form_widget(form.facilities , {'attr' : {'class' : 'form-control' }}) }}
                             </div>
-
+                            <div class="col-12">
+                                {% if not form.vars.valid %}
+                                    {% for child in  form.children %}
+                                        {% for error in child.vars.errors %}
+                                            <div class="alert alert-danger">{{ error.message }}</div>
+                                        {% endfor %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
 
 
                             <button type="submit" class="btn btn-outline-primary btn-fw">{{ button_label|default('create') }}</button>

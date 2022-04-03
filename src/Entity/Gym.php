@@ -19,14 +19,14 @@ class Gym
     private $idg;
 
     /**
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="location should not be empty")
      * @Assert\Regex("/\d/" , match = true,  message="location must contain a street number")
      * @ORM\Column(type="string", length=255)
      */
     private $location;
 
     /**
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="facilities should not be empty")
      *  @Assert\Regex(pattern="/\d/",match=false,message="facilities cannot contain a number")
      * @ORM\Column(type="string", length=255)
      */
