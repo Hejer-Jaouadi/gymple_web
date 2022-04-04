@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>GAMEX</title>
+    <title>GYMPLE</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{ asset('Back/assets/vendors/mdi/css/materialdesignicons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('Back/assets/vendors/css/vendor.bundle.base.css') }}">
@@ -105,7 +105,7 @@
                         <div class="card-body">
                             <div style="display: flex">
                                 <div class="col-md-6">
-                                    <h4 class="card-title">GYMS</h4>
+                                    <h4 class="card-title">Rooms</h4>
                                 </div>
                                 <form method="post" class="forms-sample" style="margin-left: 68px;border-right: 2px solid #666a74;" >
                                     <div class="form-group col-md-4" style="display: flex; width: 100%!important; margin: 0px!important;">
@@ -121,7 +121,7 @@
                                         <button type="Submit" class="btn btn-success btn-fw">Sort</button>
                                     </div>
                                 </form>
-                                <a style="margin-top: 3px;" href="{{ path('app_gym_new') }}"><i style="    margin-left: 6px;border: 2px solid #ff6600;border-radius: 50%;zoom: 1.6;padding: 4px;color: #ff6600;padding-bottom: 1px;"class="mdi mdi-note-plus"></i></a>
+                                <a style="margin-top: 3px;" href="{{ path('app_room_new') }}"><i style="    margin-left: 6px;border: 2px solid #ff6600;border-radius: 50%;zoom: 1.6;padding: 4px;color: #ff6600;padding-bottom: 1px;"class="mdi mdi-note-plus"></i></a>
 
                             </div>
                             <p class="card-description">only someone with administrative priviliges has access to this page</code>
@@ -138,7 +138,7 @@
                                         </div>
                                         <div class="form-group col-md-9">
                                             <div class="input-group">
-                                                <input name="Search" type="text" class="form-control" placeholder="Search Gyms" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                                <input name="Search" type="text" class="form-control" placeholder="Search Rooms" aria-label="Recipient's username" aria-describedby="basic-addon2">
                                                 <div class="input-group-append">
                                                     <button class="btn btn-sm btn-primary" type="Submit">Search</button>
                                                 </div>
@@ -150,31 +150,31 @@
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
-                                    <tr>
-                                        <th>Id GYm</th>
-                                        <th>Location</th>
-                                        <th>Facilities</th>
-                                        <th>actions</th>
-                                    </tr>
+                                    <th>Idr</th>
+                                    <th>RoomName</th>
+                                    <th>RoomNumber</th>
+                                    <th>Max_nbr</th>
+                                    <th>actions</th>
                                     </thead>
                                     <tbody>
-                                    {% for gym in gyms %}
+                                    {% for room in rooms %}
                                         <tr>
-                                            <td>{{ gym.idg }}</td>
+                                            <td>{{ room.idr }}</td>
                                             <td>
-                                                <label class="badge badge-info" style="background-color: #ff6600;">{{ gym.location }}</label>
+                                                <label class="badge badge-info" style="background-color: #ff6600;">{{ room.roomName }}</label>
                                             </td>
-                                            <td>{{ gym.facilities }}</td>
+                                            <td>{{ room.roomNumber }}</td>
+                                            <td>{{ room.maxNbr }}</td>
 
                                             <td style="width: 30%;">
-                                                <a class="btn btn-outline-primary btn-fw" href="{{ path('app_gym_show', {'idg': gym.idG}) }}">show</a>
-                                                <a class="btn btn-outline-primary btn-fw" href="{{ path('app_gym_edit', {'idg': gym.idG}) }}">edit</a>
-                                                <a class="btn btn-outline-danger btn-fw" href="{{ path('app_gym_delete', {'idg': gym.idG , '_token' : csrf_token('delete' ~ gym.idg) }) }}">delete</a>
+                                                <a class="btn btn-outline-primary btn-fw" href="{{ path('app_room_show', {'idr': room.idr}) }}">show</a>
+                                                <a class="btn btn-outline-primary btn-fw" href="{{ path('app_room_edit', {'idr': room.idr}) }}">edit</a>
+                                                <a class="btn btn-outline-danger btn-fw" href="{{ path('app_room_delete', {'idr': room.idr , '_token' : csrf_token('delete' ~ room.idr) }) }}">delete</a>
                                             </td>
                                         </tr>
                                     {% else %}
                                         <div style="display: grid;">
-                                            <label style="width: 22%;margin: auto;margin-bottom: 13px;margin-top: 10px;border: 2px solid #0090e7;padding: 10px;border-radius: 20px;border-left: 2px solid red;border-right: 2px solid red;text-align: center; font-style: oblique;color: chartreuse;"> NO GYMS FOUND WITH SUCH CRITERIA</label>
+                                            <label style="width: 22%;margin: auto;margin-bottom: 13px;margin-top: 10px;border: 2px solid #0090e7;padding: 10px;border-radius: 20px;border-left: 2px solid red;border-right: 2px solid red;text-align: center; font-style: oblique;color: chartreuse;"> NO ROOMS FOUND WITH SUCH CRITERIA</label>
                                         </div>
                                     {% endfor %}
 
@@ -189,3 +189,7 @@
         </div>
     </div>
 {% endblock %}
+
+
+
+
