@@ -18,30 +18,28 @@ class Room
     private $idr;
 
     /**
-     * @Assert\NotBlank(message="the name of the room should not be empty")
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $roomname;
 
     /**
-     *@Assert\NotBlank(message="the number of the room should not be empty")
-     *@Assert\Positive(message="the number must be positive")
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank
      */
     private $roomnumber;
 
     /**
-     * @Assert\NotBlank(message="the capacity of the room should not be empty")
-     *@Assert\Positive(message="the number must be positive")
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank
      */
     private $max_nbr;
 
-   /* /**
-     * @ORM\ManyToOne(targetEntity=Gym::class)
-     * @ORM\JoinColumn(nullable=false)
+    /**
+     * @ORM\ManyToOne(targetEntity=Gym::class, inversedBy="rooms")
+     * @ORM\JoinColumn(nullable=false,name="idgym", referencedColumnName="idg")
      */
-   /* private $idgym;*/
+    private $idgym;
 
     public function getIdr(): ?int
     {
@@ -84,15 +82,15 @@ class Room
         return $this;
     }
 
-    /*public function getIdgym(): ?gym
+    public function getIdgym(): ?Gym
     {
         return $this->idgym;
     }
 
-    public function setIdgym(?gym $idgym): self
+    public function setIdgym(?Gym $idgym): self
     {
         $this->idgym = $idgym;
 
         return $this;
-    }*/
+    }
 }

@@ -1,3 +1,4 @@
+
 {% extends 'baseBack.html.twig' %}
 
 {% block title %}Room{% endblock %}
@@ -6,7 +7,7 @@
 
     <div  class="main-panel">
         <div class="content-wrapper">
-            <div class="page-header" style="margin: 0 0 4.5rem 0;">
+            <div class="page-header" style="margin: 0 0 11.5rem 0;">
                 <h3 class="page-title"> ROOM </h3>
 
             </div>
@@ -15,12 +16,12 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row align-items-right">
-                                <div class="col-7">
-                                    <h4 class="card-title" style="color: #ff6600;">ROOM Information</h4>
+                                <div class="col-4">
+                                    <h4 class="card-title">ROOM Information</h4>
                                 </div>
                                 <div class="col-4 text-right" style="display: -webkit-box;">
-                                    <a  style="margin-left: -110px;" class="btn btn-outline-primary btn-fw" href="{{ path('app_room_index') }}">Back</a>
-                                    <form style=" margin-left: 5px;" method="post" action="{{ path('app_room_delete', {'idr': room.idr}) }}" onsubmit="return confirm('Are you sure you want to delete this room?');">
+                                    <a  style="margin-left: -23px;" class="btn btn-outline-primary btn-fw" href="{{ path('app_room_index') }}">Back</a>
+                                    <form style=" margin-left: 15px;" method="post" action="{{ path('app_room_delete', {'idr': room.idr}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
                                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ room.idr) }}">
                                         <button class="btn btn-outline-danger btn-fw">Delete</button>
                                     </form>
@@ -29,18 +30,18 @@
                             <form class="forms-sample" readonly="true">
                                 <div class="form-group">
                                     <label for="exampleInputUsername1">Id Room</label>
-                                    <input type="text" class="form-control" id="exampleInputUsername1" value="{{  room.idR }}">
+                                    <input type="text" class="form-control" id="exampleInputUsername1" value="{{  room.idr }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputUsername1">Room Name </label>
-                                    <input type="text" class="form-control" id="exampleInputUsername1" value="{{room.roomName }}">
+                                    <label for="exampleInputUsername1">Room name  </label>
+                                    <input type="text" class="form-control" id="exampleInputUsername1" value="{{room.roomname }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Room Number</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1" value="{{ room.roomNumber }}" >
+                                    <label for="exampleInputEmail1">Room number</label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" value="{{ room.roomnumber }}" >
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Room Capacity</label>
+                                    <label for="exampleInputEmail1">Room capacity</label>
                                     <input type="email" class="form-control" id="exampleInputEmail1" value="{{ room.maxNbr }}" >
                                 </div>
                                 <a class="btn btn-outline-primary btn-fw" href="{{path('app_room_edit', {'idr': room.idr}) }}">edit</a>
@@ -55,8 +56,3 @@
     </table>
 
 {% endblock %}
-
-
-
-
-

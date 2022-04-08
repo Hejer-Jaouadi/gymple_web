@@ -16,6 +16,17 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class GymController extends AbstractController
 {
+
+    /**
+     * @Route("/maps", name="app_gym_maps", methods={"GET"})
+     */
+    public function maps(GymRepository $gymRepository): Response
+    {
+        return $this->render('gym/maps.html.twig', [
+            'gyms' => $gymRepository->findAll(),
+        ]);
+    }
+
     /**
      * @Route("/", name="app_gym_index", methods={"GET"})
      */

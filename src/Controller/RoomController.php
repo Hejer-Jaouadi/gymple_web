@@ -35,6 +35,7 @@ class RoomController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $roomRepository->add($room);
             return $this->redirectToRoute('app_room_index', [], Response::HTTP_SEE_OTHER);
         }
