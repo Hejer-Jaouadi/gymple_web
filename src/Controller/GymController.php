@@ -6,11 +6,12 @@ use App\Entity\Gym;
 use App\Form\GymType;
 use App\Repository\GymRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Knp\Component\Pager\PaginatorInterface;
 /**
  * @Route("/gym")
  */
@@ -30,10 +31,18 @@ class GymController extends AbstractController
     /**
      * @Route("/", name="app_gym_index", methods={"GET"})
      */
-    public function index(GymRepository $gymRepository): Response
+    public function index(GymRepository $gymRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        $gyms =  $gymRepository->findAll();
+
+        $gymspagination = $paginator->paginate(
+            $gyms, // on passe les donnees
+                $request->query->getInt('page',1),// Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            5
+        );
+
         return $this->render('gym/index.html.twig', [
-            'gyms' => $gymRepository->findAll(),
+            'gyms' => $gymspagination,
         ]);
     }
 

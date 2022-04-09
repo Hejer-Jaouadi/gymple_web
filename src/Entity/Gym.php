@@ -8,6 +8,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+// Include Dompdf required namespaces
+use Dompdf\Dompdf;
+use Dompdf\Options;
 /**
  * @ORM\Entity(repositoryClass=GymRepository::class)
  */

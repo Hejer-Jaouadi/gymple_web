@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Knp\Component\Pager\PaginatorInterface;
 /**
  * @Route("/room")
  */
@@ -18,10 +18,18 @@ class RoomController extends AbstractController
     /**
      * @Route("/", name="app_room_index", methods={"GET"})
      */
-    public function index(RoomRepository $roomRepository): Response
+    public function index(RoomRepository $roomRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        $rooms =  $roomRepository->findAll();
+
+        $roompagination = $paginator->paginate(
+            $rooms, // on passe les donnees
+            $request->query->getInt('page',1),// Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            5
+        );
+
         return $this->render('room/index.html.twig', [
-            'rooms' => $roomRepository->findAll(),
+            'rooms' => $roompagination,
         ]);
     }
 
