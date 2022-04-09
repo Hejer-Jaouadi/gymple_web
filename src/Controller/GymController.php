@@ -12,11 +12,50 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 /**
  * @Route("/gym")
  */
 class GymController extends AbstractController
 {
+
+    /**
+     * @Route("/gyminfo", name="app_gym_info", methods={"GET"})
+     */
+    public function gyminfo(GymRepository $gymRepository): Response
+    {
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+        $gyms = $gymRepository->findAll();
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('gym/gyminfo.html.twig', [
+            'gyms' => $gyms,
+        ]);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("mypdf.pdf", [
+            "Attachment" => true
+        ]);
+
+        return $this->redirectToRoute('app_gym_info', [], Response::HTTP_SEE_OTHER);
+
+    }
+
 
     /**
      * @Route("/maps", name="app_gym_maps", methods={"GET"})
@@ -33,11 +72,11 @@ class GymController extends AbstractController
      */
     public function index(GymRepository $gymRepository, Request $request, PaginatorInterface $paginator): Response
     {
-        $gyms =  $gymRepository->findAll();
+        $gyms = $gymRepository->findAll();
 
         $gymspagination = $paginator->paginate(
             $gyms, // on passe les donnees
-                $request->query->getInt('page',1),// Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            $request->query->getInt('page', 1),// Numéro de la page en cours, passé dans l'URL, 1 si aucune page
             5
         );
 
@@ -45,6 +84,8 @@ class GymController extends AbstractController
             'gyms' => $gymspagination,
         ]);
     }
+
+
 
     /**
      * @Route("/new", name="app_gym_new", methods={"GET", "POST"})

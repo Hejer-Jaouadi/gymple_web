@@ -128,7 +128,7 @@
                             </p>
                             <ul class="navbar-nav w-100">
                                 <li class="nav-item w-100">
-                                    <form name="Search-method" id="Search-method" method="post" class="forms-sample" style="display: flex">
+                                    <form name="Search-method" id="Search-method" method="post" class="forms-sample" style="display: flex ">
                                         <div class="form-group col-md-3">
                                             <label style="margin-top: 11px;margin-left: 10px;margin-right: 14px;border-bottom: 6px solid #0090e7;padding-bottom: 7px;border-bottom-style: dotted;">Search Options</label>
                                             <select name="optionsearch" class="js-example-basic-single" style="width: 200px;height: 38px; color: white; background-color: #191c24; border-radius: 4px;text-align: center;border: 2px solid #0090e7;margin-right: 15px;">
@@ -140,8 +140,9 @@
                                             <div class="input-group">
                                                 <input name="Search" type="text" class="form-control" placeholder="Search Gyms" aria-label="Recipient's username" aria-describedby="basic-addon2">
                                                 <div class="input-group-append">
-                                                    <button class="btn btn-sm btn-primary" type="Submit">Search</button>
+                                                    <button class="btn btn-sm btn-primary" style="margin-right: 25px;border-right: 2px " type="Submit">Search</button>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </form>
@@ -185,6 +186,11 @@
 
                             </div>
                             {{ knp_pagination_render(gyms) }}
+                            <div class="input-group-append">
+
+                                <a class="btn btn-info btn-icon-text"; href="{{ path('app_gym_info') }}">  Print <i class="mdi mdi-printer btn-icon-append" ></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
