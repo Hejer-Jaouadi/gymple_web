@@ -19,6 +19,16 @@ use Dompdf\Options;
  */
 class GymController extends AbstractController
 {
+    /**
+     * @Route("/gymfront", name="app_gym_front", methods={"GET"})
+     */
+    public function gymFront(GymRepository $gymRepository): Response
+    {
+        $gyms = $gymRepository->findAll();
+        return $this->render('gym/gymfront.html.twig', [
+            'gyms' => $gyms,
+        ]);
+    }
 
     /**
      * @Route("/gyminfo", name="app_gym_info", methods={"GET"})
@@ -48,7 +58,7 @@ class GymController extends AbstractController
         $dompdf->render();
 
         // Output the generated PDF to Browser (force download)
-        $dompdf->stream("mypdf.pdf", [
+        $dompdf->stream("GymList.pdf", [
             "Attachment" => true
         ]);
 
@@ -84,8 +94,6 @@ class GymController extends AbstractController
             'gyms' => $gymspagination,
         ]);
     }
-
-
 
     /**
      * @Route("/new", name="app_gym_new", methods={"GET", "POST"})
@@ -150,4 +158,6 @@ class GymController extends AbstractController
 
         return $this->redirectToRoute('app_gym_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
 }
