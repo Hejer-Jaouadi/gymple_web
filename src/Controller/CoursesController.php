@@ -9,12 +9,28 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Symfony\Flex\Options as FlexOptions;
 
 /**
  * @Route("/courses")
  */
 class CoursesController extends AbstractController
 {
+    /**
+     * @Route("/coursefront", name="app_courses_front", methods={"GET"})
+     */
+    public function courseFront(CoursesRepository $courseRepository): Response
+    {
+        $courses = $courseRepository->findAll();
+        
+        return $this->render('courses/course_front.html.twig', [
+            'courses' => $courses,
+            
+        ]);
+    }
+    
     /**
      * @Route("/", name="app_courses_index", methods={"GET"})
      */

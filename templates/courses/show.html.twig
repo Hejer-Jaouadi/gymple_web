@@ -1,50 +1,71 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_back.html.twig' %}
 
 {% block title %}Courses{% endblock %}
 
 {% block body %}
-    <h1>Courses</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ course.id }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{{ course.date ? course.date|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>StartTime</th>
-                <td>{{ course.startTime ? course.startTime|date('H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>EndTime</th>
-                <td>{{ course.endTime ? course.endTime|date('H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Spots</th>
-                <td>{{ course.spots }}</td>
-            </tr>
-            <tr>
-                <th>Category</th>
-                <td>{{ course.category }}</td>
-            </tr>
-            <tr>
-                <th>Address</th>
-                <td>{{ course.address }}</td>
-            </tr>
-            <tr>
-                <th>Trainer</th>
-                <td>{{ course.trainer }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_courses_index') }}">back to list</a>
-
-    <a href="{{ path('app_courses_edit', {'id': course.id}) }}">edit</a>
-
-    {{ include('courses/_delete_form.html.twig') }}
+    <div  class="main-panel">
+        <div class="content-wrapper">
+            <div class="page-header" style="margin: 0 0 4.5rem 0;">
+                <h1 class="page-title" > COURSE </h1>
+            </div>
+            <div class="row" style="margin: auto;">
+                <div class="col-md-6 grid-margin stretch-card" style="margin:auto;">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row align-items-right">
+                                <div class="col-7">
+                                    <h3 class="card-title" style="color: #ff6600;" >Course Informations</h3>
+                                </div>
+                                 
+                                <div class="col-4 text-right" style="display: -webkit-box;"></br>
+                                    <a  style="margin-left: -110px;" class="btn btn-outline-primary btn-fw" href="{{ path('app_courses_index') }}">Back</a> 
+                                    <form style=" margin-left: 5px;" method="post" action="{{ path('app_courses_delete', {'id': course.id}) }}" onsubmit="return confirm('Are you sure you want to delete this course?');">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ course.id) }}"></br>
+                                        <button class="btn btn-outline-danger btn-fw">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <form class="forms-sample" readonly="true">
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Id:</label>
+                                    <input type="text" class="form-control" id="exampleInputUsername1" value="{{  course.id }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Date: </label>
+                                    <input type="text" class="form-control" id="exampleInputUsername1" value="{{ course.date ? course.date|date('Y-m-d') : '' }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Starting time:</label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" value="{{ course.startTime ? course.startTime|date('H:i:s') : '' }}" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Ending time:</label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" value="{{ course.endTime ? course.endTime|date('H:i:s') : '' }}" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Spots:</label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" value="{{ course.spots }}" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Category:</label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" value="{{ course.category }}" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Address:</label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" value="{{ course.address }}" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Trainer:</label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" value="{{ course.trainer }}" >
+                                </div>
+                                <a class="btn btn-outline-primary btn-fw" href="{{path('app_courses_edit', {'id': course.id}) }}">edit</a>
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 {% endblock %}

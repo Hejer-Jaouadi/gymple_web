@@ -1,11 +1,67 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_back.html.twig' %}
 
 {% block title %}New Tips{% endblock %}
 
 {% block body %}
-    <h1>Create new Tips</h1>
+    <div  class="main-panel">
+        <div class="content-wrapper">
+            <div class="page-header" style="margin: 0 0 4.5rem 0;">
+                <h3 class="page-title"> TIPS </h3>
 
-    {{ include('tips/_form.html.twig') }}
+            </div>
+            <div class="row" style="margin: auto;">
+                <div class="col-md-6 grid-margin stretch-card" style="margin:auto;">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row align-items-right">
+                                <div class="col-9">
+                                    <h4 class="card-title">Tip Informations</h4>
+                                </div>
+                                <div class="col-2 text-right" style="display: -webkit-box;">
+                                    <a  style="margin-left: -40px;" class="btn btn-outline-primary btn-fw" href="{{ path('app_tips_index') }}">Back</a>
+                                </div>
+                            </div>
 
-    <a href="{{ path('app_tips_index') }}">back to list</a>
+                            <p class="card-description">  </p>
+
+                            {{ form_start(form ,  {'attr' : {'novalidate' : 'novalidate'}}) }}
+                            <div class="form-group">
+                                <label for="exampleInputUsername1">Caption : </label>
+                                {{ form_widget(form.caption , {'attr' : {'class' : 'form-control' }}) }}
+                            </div>
+
+                            {{ form_start(form ,  {'attr' : {'novalidate' : 'novalidate'}}) }}
+
+                            <div class="row align-items-center">
+
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Category : </label>
+                                {{ form_widget(form.category , {'attr' : {'class' : 'form-control' }}) }}
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Text : </label>
+                                {{ form_widget(form.text , {'attr' : {'class' : 'form-control' }}) }}
+                            </div>
+                            <div class="col-12">
+                                {% if not form.vars.valid %}
+                                    {% for child in  form.children %}
+                                        {% for error in child.vars.errors %}
+                                            <div class="alert alert-danger">{{ error.message }}</div>
+                                        {% endfor %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+
+
+                            <button type="submit" class="btn btn-outline-primary btn-fw">{{ button_label|default('create') }}</button>
+                            {{ form_end(form) }}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 {% endblock %}
