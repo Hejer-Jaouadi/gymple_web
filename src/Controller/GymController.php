@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\Gym;
 use App\Form\GymType;
 use App\Repository\GymRepository;
+use App\Entity\Room;
+use App\Form\RoomType;
+use App\Repository\RoomRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,11 +25,13 @@ class GymController extends AbstractController
     /**
      * @Route("/gymfront", name="app_gym_front", methods={"GET"})
      */
-    public function gymFront(GymRepository $gymRepository): Response
+    public function gymFront(GymRepository $gymRepository , RoomRepository $roomRepository): Response
     {
         $gyms = $gymRepository->findAll();
+        $rooms = $roomRepository->findAll();
         return $this->render('gym/gymfront.html.twig', [
             'gyms' => $gyms,
+            'rooms' => $rooms,
         ]);
     }
 
@@ -158,6 +163,7 @@ class GymController extends AbstractController
 
         return $this->redirectToRoute('app_gym_index', [], Response::HTTP_SEE_OTHER);
     }
+
 
 
 }

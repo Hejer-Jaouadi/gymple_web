@@ -95,5 +95,12 @@ class RoomController extends AbstractController
         return $this->redirectToRoute('app_room_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    /**
+     * @Route("/stats", name="app_room_stats")
+     */
+    public function statistics(): response
+    {
+        return $this->render('room/stats.html.twig');
+    }
 
 }
