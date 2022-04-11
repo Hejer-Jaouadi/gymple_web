@@ -1,0 +1,308 @@
+<?php
+
+namespace App\Controller;
+
+use App\Entity\User;
+use App\Form\UserType;
+use App\Form\AdminType;
+use App\Form\Login;
+use App\Form\User2;
+use App\Form\TrainerType;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use App\Form\MemberType;
+use App\Controller\MailerController;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+/**
+ * @Route("/user")
+ */
+class UserController extends AbstractController
+{
+    /**
+     * @Route("/", name="app_user_index", methods={"GET"})
+     */
+    public function index(EntityManagerInterface $entityManager): Response
+    {
+        $users = $entityManager
+            ->getRepository(User::class)
+            ->findAll();
+
+        return $this->render('user/index.html.twig', [
+            'users' => $users,
+        ]);
+    }
+    public function randomPassword() {
+        $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+        $pass = array(); //remember to declare $pass as an array
+        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+        for ($i = 0; $i < 8; $i++) {
+            $n = rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        return implode($pass); //turn the array into a string
+    }
+
+    /**
+     * @Route("/new", name="app_user_new", methods={"GET", "POST"})
+     */
+    public function new(Request $request, EntityManagerInterface $entityManager,MailerInterface $m): Response
+    {
+        $user = new User();
+        $form = $this->createForm(TrainerType::class, $user);
+        $form->handleRequest($request);
+        $user->setRole("trainer");
+        $user->setPassword($this->randomPassword());
+        
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $user->sendPassword($m);
+            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('user/new_trainer.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
+    }
+
+/**
+     * @Route("/{id}/email", name="app_user_email", methods={"GET"})
+     */
+    public function sendEmail(MailerInterface $mailer,User $user): Response
+    {
+        
+        $email = (new Email())
+            ->from('asma.hejaiej@esprit.tn')
+            ->to('hejaiej.asma@gmail.com')
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject($user->getId())
+            ->text('This is your password :');
+
+        $mailer->send($email);
+        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+
+
+        // ...
+    }
+
+    
+
+
+    /**
+     * @Route("/newtrainer", name="app_user_new_trainer", methods={"GET", "POST"})
+     */
+    public function new_trainer(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $user = new User();
+        $form = $this->createForm(TrainerType::class, $user);
+        $form->handleRequest($request);
+        $user->setRole("trainer");
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('user/new_trainer.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+    
+    /**
+     * @Route("/gymple", name="app_front", methods={"GET", "POST"})
+     */
+    public function showFront(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        
+        $users = $entityManager
+        ->getRepository(User::class)
+        ->findAll();
+
+    return $this->render('user/teams.html.twig', [
+        'users' => $users,
+    ]);
+       
+    }
+    /**
+     * @Route("/home", name="app_front", methods={"GET", "POST"})
+     */
+    public function homeFront(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        
+     
+
+    return $this->render('user/home.html.twig', [
+        
+    ]);
+       
+    }
+
+
+    
+    public function new_trainer2(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $user = new User();
+        $form = $this->createForm(TrainerType::class, $user);
+        $form->handleRequest($request);
+        $user->setRole("trainer");
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('user/new_trainer.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
+    }
+
+     /**
+     * @Route("/login", name="app_user_login", methods={"GET", "POST"})
+     */
+    public function login(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $user = new User();
+        $form = $this->createForm(Login::class, $user);
+        $form->handleRequest($request);
+        $user->setRole("admin");
+
+        if ($form->isSubmitted())
+        {
+                return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+   
+        }
+         return $this->render('user/login.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
+        }
+
+
+
+    /**
+     * @Route("/{id}", name="app_user_show", methods={"GET"})
+     */
+    public function show(User $user): Response
+    {
+        return $this->render('user/show.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+
+    /**
+     * @Route("/{id}/edit", name="app_user_edit", methods={"GET", "POST"})
+     */
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(User2::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('user/edit.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+     /**
+     * @Route("/calendar", name="calender", methods={"GET"})
+     */
+    public function calendar(Request $request): Response
+    {     
+        return $this->render('user/calendar.html.twig');
+    }
+
+
+
+
+
+    /**
+     * @Route("/{id}/editAcc", name="app_user_editAcc", methods={"GET", "POST"})
+     */
+    public function editAdmin(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(AdminType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('user/edit_admin.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+    /**
+     * @Route("/{id}/block", name="app_user_block", methods={"GET", "POST"})
+     */
+    public function block(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    {
+            
+            $user->setBlock("y");
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        
+
+        
+    }
+
+    /**
+     * @Route("/{id}/unblock", name="app_user_unblock", methods={"GET", "POST"})
+     */
+    public function unblock(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    {
+            
+            $user->setBlock("n");
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        
+
+        
+    }
+
+    /**
+     * @Route("/{id}", name="app_user_delete", methods={"POST"})
+     */
+    public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($user);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+    }
+}

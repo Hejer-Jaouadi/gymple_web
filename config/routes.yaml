@@ -1,0 +1,16 @@
+index:
+   path: /newtrainer
+   controller: App\Controller\UserController::new_trainer
+loggi:
+   path: /login
+   controller: App\Controller\UserController::login
+loggsdfjgi:
+   path: /team
+   controller: App\Controller\UserController::showFront
+home:
+   path: /home
+   controller: App\Controller\UserController::homeFront
+
+
+
+
