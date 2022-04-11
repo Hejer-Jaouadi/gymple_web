@@ -16,7 +16,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class TipsController extends AbstractController
 {
     /**
-     * @Route("/", name="app_tips_index", methods={"GET"})
+     * @Route("/tipfront", name="app_tips_front", methods={"GET"})
+     */
+    public function courseFront(TipsRepository $tipRepository): Response
+    {
+        $tips = $tipRepository->findAll();
+        
+        return $this->render('tips/tips_front.html.twig', [
+            'tips' => $tips,
+            
+        ]);
+    }
+    /**
+     * @Route("/tipindex", name="app_tips_index", methods={"GET"})
      */
     public function index(TipsRepository $tipsRepository): Response
     {

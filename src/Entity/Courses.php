@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\CoursesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CoursesRepository::class)
@@ -14,41 +16,50 @@ class Courses
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Assert\Unique
      */
     private $id;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\NotEqualTo("00:00:00")
      */
     private $date;
 
     /**
      * @ORM\Column(type="time")
+     * @Assert\NotEqualTo("00:00")
      */
     private $startTime;
 
     /**
      * @ORM\Column(type="time")
+     * @Assert\NotEqualTo("00:00")
      */
     private $endTime;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank
+     * @Assert\Range(min=1)
      */
     private $spots;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $category;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $address;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $trainer;
 

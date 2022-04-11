@@ -9,15 +9,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Dompdf\Dompdf;
-use Dompdf\Options;
-use Symfony\Flex\Options as FlexOptions;
+use Knp\Component\Pager\PaginatorInterface;
+
 
 /**
  * @Route("/courses")
  */
 class CoursesController extends AbstractController
 {
+   
     /**
      * @Route("/coursefront", name="app_courses_front", methods={"GET"})
      */
@@ -34,10 +34,14 @@ class CoursesController extends AbstractController
     /**
      * @Route("/", name="app_courses_index", methods={"GET"})
      */
-    public function index(CoursesRepository $coursesRepository): Response
+    public function index(CoursesRepository $coursesRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        $courses = $coursesRepository->findAll();
+
+        $coursepagination = $paginator->paginate($courses, $request->query->getInt('page', 1), 5);
+
         return $this->render('courses/index.html.twig', [
-            'courses' => $coursesRepository->findAll(),
+            'courses' => $coursepagination,
         ]);
     }
 

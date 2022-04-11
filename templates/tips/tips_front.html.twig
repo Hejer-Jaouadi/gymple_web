@@ -1,0 +1,42 @@
+{% extends 'base_front.html.twig' %}
+
+
+{% block body %}
+    <!-- Pricing Section Begin -->
+    <section class="pricing-section service-pricing spad" >
+        <div class="container" >
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <span>Our Tips for you</span>
+                        <h2>Read useful tips and train samrter</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center" >
+                {% for tip in tips %}
+                    <div class="col-lg-4 col-md-8" >
+                        <div class="ps-item" style="width:1000px;margin-left:-350px">
+                            
+                            <div class="pi-price">
+                                <h2>{{ tip.caption }}</h2>
+                               
+                            </div>
+                            
+                            <ul>
+                            <div class="pi-price">    
+                                <p>{{ tip.text }}</p>     
+                            </div>
+                            </ul>
+                           
+                            <a class="btn btn-outline-primary btn-fw" href="#" style="background-color: #ff6600;">Save this Tip</a>
+                        </div>
+                    </div>
+                {%  endfor %}
+
+
+            </div>
+        </div>
+    </section>
+    <!-- Pricing Section End -->
+{% endblock %}

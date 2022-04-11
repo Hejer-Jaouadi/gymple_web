@@ -17,20 +17,29 @@
                 {% for course in courses %}
                     <div class="col-lg-4 col-md-8">
                         <div class="ps-item">
-                            <h3>Courses of the week : </h3>
+                            <h3>COURSE OF  </h3>
                             <div class="pi-price">
-                                <h2>{{ course.category }}</h2>
+                                {% if course.idCt == category.idCt %}
+                                <h2>{{ course.category.name }}</h2>
+                                <% endif %>
                                 <span>{{ course.address }}</span>
                             </div>
-                            <h2>And these different rooms </h2>
+                            <h3>TIME: </h3>
                             <ul>
-                                {% for course in courses %}
-                                    
-                                        <li>{{ course.endTime ? course.endTime|date('H:i:s') : ''}}</li>
-                                    
-                                {% endfor %}
+                            <div class="pi-price">    
+                                <li><span>from </span> {{ course.startTime ? course.startTime|date('H:i') : ''}}</li>
+                                <li><span>To </span>{{ course.endTime ? course.endTime|date('H:i') : ''}}</li>     
+                            </div>
                             </ul>
-
+                            <div class="pi-price">
+                                <h2>with coach</h2>
+                            
+                            <ul>
+                                <h2>{{ course.trainer}}</h2>
+                                                              
+                            </ul>
+                            </div>
+                            <a class="btn btn-outline-primary btn-fw" href="#" style="background-color: #ff6600;">Make reservation</a>
                         </div>
                     </div>
                 {%  endfor %}
