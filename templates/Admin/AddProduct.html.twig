@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row align-items-center">
+        <div class="col-12">
+            {% if not f.vars.valid %}
+                {% for child in  f.children %}
+                    {% for error in child.vars.errors %}
+                        <div class="alert alert-danger">{{ error.message }}</div>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    {{ form_start(f,  {'attr' : {'novalidate' : 'novalidate'}}) }}
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Basic form elements</h4>
+                <p class="card-description"> Add Product </p>
+                <form class="forms-sample">
+                    <div class="form-group">
+                        <label for="exampleInputName1">Name</label>
+                        {{ form_widget(f.name , {'attr' : {'class' : 'form-control' }}) }}
+
+                    </div>
+                    <div class="form-group">
+                        <label for="Quantity">Quantity</label>
+                        {{ form_widget(f.quantity , {'attr' : {'class' : 'form-control' }}) }}
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword4">Description</label>
+                        {{ form_widget(f.description , {'attr' : {'class' : 'form-control' }}) }}
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleSelectGender">Category</label>
+                        {{ form_widget(f.category , {'attr' : {'class' : 'form-control' }}) }}
+
+                    </div>
+                    <div class="form-group">
+                        <label>Image upload</label>
+                        <input type="file" name="img[]" class="file-upload-default">
+                        <div class="input-group col-xs-12">
+                            <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                            <span class="input-group-append">
+                            <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                          </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        {{ form_widget(f.price , {'attr' : {'class' : 'form-control' }}) }}
+                    </div>
+                    <button  class="btn btn-primary mr-2" {{ button_label|default('create') }}>Add Product</button>
+                    <button class="btn btn-dark">Cancel</button>
+                </form>
+            </div>
+        </div>
+        {{ form_end(f) }}
+    </div>
+
+{% endblock %}
