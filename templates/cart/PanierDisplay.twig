@@ -1,0 +1,50 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Hello CartController!{% endblock %}
+
+{% block body %}
+
+{% if items | length >0 %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Product</th>
+            <th>price</th>
+            <th>quantity</th>
+            <th>Total</th>
+            <th></th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.product.price }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.product.price * item.quantity }}</td>
+            <td>
+                <a href="{{ path('cart_remove',{'id':item.product.IdP}) }}" class="btn btn-danger btn-sm">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        <tr>
+            <td colspan="3">Total : </td>
+            <td>{{ total }}</td>
+            <td></td>
+        </tr>
+
+    </table>
+    <form action="/checkout" method="POST">
+
+        <button type="submit" class="primary-btn pricing-btn">Buy Now</button>
+
+    </form>
+    {% else %}
+    <p>vide</p>
+    {% endif %}
+
+{% endblock %}

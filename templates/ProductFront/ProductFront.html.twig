@@ -28,13 +28,14 @@
                             <li>{{ prod.category }}</li>
                             <li>{{ prod.description }}</li>
                             <li>{{ prod.quantity }} Left</li>
-                            <li>Weight losing classes</li>
+                            <li>{{ prod.img }}</li>
                             <li>Month to mouth</li>
                             <li>No time restriction</li>
                         </ul>
                         <form action="/checkout" method="POST">
 
                             <button type="submit" class="primary-btn pricing-btn">Buy Now</button>
+                            <a href="{{ path('cart_add', {'id':prod.IdP}) }}">panier</a>
                         </form>
 
                         <a href="#" class="thumb-icon"><i class="fa fa-picture-o"></i></a>

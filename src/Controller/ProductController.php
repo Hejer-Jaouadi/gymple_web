@@ -24,43 +24,6 @@ class ProductController extends AbstractController
             'p'=>$product
         ]);
     }
-    /**
-     * @Route("/checkout", name="checkout")
-     */
-    public function checkout(): Response
-    {
-        \Stripe\Stripe::setApiKey('sk_test_51K9oMoFGG3TCydWDIAAn0Ewahl2peotVjBwuq6aaox3rDW2Bqs1ned3JHuCwRqicCtI4pgOEp1HwQQ4tYtqAClul00dXq3fpiH');
-        $session = \Stripe\Checkout\Session::create([
-            'line_items' => [[
-                'price_data' => [
-                    'currency' => 'usd',
-                    'product_data' => [
-                        'name' => 'Gym Product',
-                    ],
-                    'unit_amount' => 2000,
-                ],
-                'quantity' => 1,
-            ]],
-            'mode' => 'payment',
-            'success_url' => 'http://localhost:8000/success_url',
-            'cancel_url' => 'https://example.com/cancel',
-        ]);
-        return $this->redirect($session->url,303);
-    }
-    /**
-     * @Route("/success_url", name="success_url")
-     */
-    public function successUrl(): Response
-    {
-        return $this->render('ProductFront/success.html.twig');
-    }
-    /**
-     * @Route("/cancel-url", name="cancel_url")
-     */
-    public function cancelUrl(): Response
-    {
-        return $this->render('ProductFront/cancel.html.twig');
-    }
 
 
     /* partie back */
