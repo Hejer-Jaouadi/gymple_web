@@ -16,10 +16,58 @@ use Knp\Component\Pager\PaginatorInterface;
 class RoomController extends AbstractController
 {
     /**
-     * @Route("/", name="app_room_index", methods={"GET"})
+     * @Route("/", name="app_room_index", methods={"GET" , "POST"})
      */
     public function index(RoomRepository $roomRepository, Request $request, PaginatorInterface $paginator): Response
     {
+
+        if ( $request->isMethod('POST')) {
+
+            if ( $request->request->get('optionsRadios')){
+                $SortKey = $request->request->get('optionsRadios');
+                switch ($SortKey){
+                    case 'roomName':
+                        $rooms = $roomRepository->SortByName();
+                        break;
+
+                    case 'roomNumber':
+                       $rooms= $roomRepository->SortByNumber();
+                        break;
+
+
+                }
+            }
+            else
+            {
+                $type = $request->request->get('optionsearch');
+                $value = $request->request->get('Search');
+                switch ($type){
+                    case 'roomName':
+                        $rooms= $roomRepository->findByName($value);
+                        break;
+
+                    case 'roomNumber':
+                        $rooms = $roomRepository->findByNumber($value);
+                        break;
+
+                    case 'maxNbr':
+                        $rooms = $roomRepository->findByCapacity($value);
+                        break;
+
+                }
+            }
+            $roompagination = $paginator->paginate(
+                $rooms,
+                $request->query->getInt('page',1),// Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                5
+            );
+
+            return $this->render('room/index.html.twig', [
+                'rooms' => $roompagination,
+            ]);
+
+        }
+
         $rooms =  $roomRepository->findAll();
 
         $roompagination = $paginator->paginate(

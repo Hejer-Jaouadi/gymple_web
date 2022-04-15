@@ -61,7 +61,51 @@ class RoomRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findByName($value)
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.roomname LIKE :val')
+            ->setParameter('val', '%'.$value.'%')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+    public function findByNumber($value)
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.roomnumber LIKE :val')
+            ->setParameter('val', '%'.$value.'%')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+    public function findByCapacity($value)
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.max_nbr LIKE :val')
+            ->setParameter('val', '%'.$value.'%')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
+    public function SortByName()
+    {
+        return $this->createQueryBuilder('r')
+            ->orderBy('r.roomname', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function SortByNumber()
+    {
+        return $this->createQueryBuilder('r')
+            ->orderBy('r.roomnumber', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     /*
     public function findOneBySomeField($value): ?Room
     {
