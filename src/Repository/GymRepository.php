@@ -45,22 +45,46 @@ class GymRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Gym[] Returns an array of Gym objects
-    //  */
-    /*
-    public function findByExampleField($value)
+     /**
+      * @return Gym[] Returns an array of Gym objects
+      */
+
+    public function findByLocation($value)
     {
         return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('g.idg', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('g.location LIKE :val')
+            ->setParameter('val', '%'.$value.'%')
             ->getQuery()
             ->getResult()
-        ;
+            ;
     }
-    */
+    public function findByFacilities($value)
+    {
+        return $this->createQueryBuilder('g')
+            ->andWhere('g.facilities LIKE :val')
+            ->setParameter('val', '%'.$value.'%')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function SortByLocation()
+    {
+        return $this->createQueryBuilder('g')
+            ->orderBy('g.location', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function SortByFacilities()
+    {
+        return $this->createQueryBuilder('g')
+            ->orderBy('g.facilities', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
     /*
     public function findOneBySomeField($value): ?Gym

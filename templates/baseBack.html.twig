@@ -109,30 +109,30 @@
                         </a>
                     </li>
                 {% endif %}
-        </ul>
-        </li>
-        {% if path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) == '/room/' %}
-            <li class="nav-item menu-items active">
-                <a class="nav-link" href="{{ path('app_room_index') }}">
+
+            {% if path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) == '/room/' %}
+                <li class="nav-item menu-items active">
+                    <a class="nav-link" href="{{ path('app_room_index') }}">
               <span class="menu-icon">
                 <i class="mdi mdi-speedometer"></i>
               </span>
-                    <span class="menu-title">Room</span>
-                </a>
-            </li>
+                        <span class="menu-title">Room</span>
+                    </a>
+                </li>
 
-        {% else %}
-            <li class="nav-item menu-items">
-                <a class="nav-link" href="{{ path('app_room_index') }}">
+            {% else %}
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="{{ path('app_room_index') }}">
               <span class="menu-icon">
                 <i class="mdi mdi-speedometer"></i>
               </span>
-                    <span class="menu-title">Room</span>
-                </a>
-            </li>
-        {% endif %}
+                        <span class="menu-title">Room</span>
+                    </a>
+                </li>
+            {% endif %}
 
         </ul>
+
     </nav>
 
     <div class="container-fluid page-body-wrapper">

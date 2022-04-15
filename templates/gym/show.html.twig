@@ -19,7 +19,7 @@
                                     <h4 class="card-title">GYM Information</h4>
                                 </div>
                                 <div class="col-4 text-right" style="display: -webkit-box;">
-                                    <a  style="margin-left: -23px;" class="btn btn-outline-primary btn-fw" href="{{ path('app_gym_index') }}">Back</a>
+                                    <a  style="margin-left: -123px;" class="btn btn-outline-primary btn-fw" href="{{ path('app_gym_index') }}">Back</a>
                                     <form style=" margin-left: 15px;" method="post" action="{{ path('app_gym_delete', {'idg': gym.idg}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
                                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ gym.idg) }}">
                                         <button class="btn btn-outline-danger btn-fw">Delete</button>

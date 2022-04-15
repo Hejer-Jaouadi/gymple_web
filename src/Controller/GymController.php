@@ -83,10 +83,56 @@ class GymController extends AbstractController
     }
 
     /**
-     * @Route("/", name="app_gym_index", methods={"GET"})
+     * @Route("/", name="app_gym_index", methods={"GET" , "POST"})
      */
     public function index(GymRepository $gymRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        if ( $request->isMethod('POST')) {
+
+            if ( $request->request->get('optionsRadios')){
+                $SortKey = $request->request->get('optionsRadios');
+                switch ($SortKey){
+                    case 'location':
+                        $gyms = $gymRepository->SortByLocation();
+                        break;
+
+                    case 'facilities':
+                        $gyms= $gymRepository->SortByFacilities();
+                        break;
+
+
+                }
+            }
+            else
+            {
+                $type = $request->request->get('optionsearch');
+                $value = $request->request->get('Search');
+                switch ($type){
+                    case 'location':
+                        $gyms = $gymRepository->findByLocation($value);
+                        break;
+
+                    case 'facilities':
+                        $gyms = $gymRepository->findByFacilities($value);
+                        break;
+
+
+                }
+            }
+
+
+            $gymspagination = $paginator->paginate(
+                $gyms, // on passe les donnees
+                $request->query->getInt('page', 1),// Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                5
+            );
+
+            return $this->render('gym/index.html.twig', [
+                'gyms' => $gymspagination,
+
+            ]);
+        }
+
         $gyms = $gymRepository->findAll();
 
         $gymspagination = $paginator->paginate(
@@ -97,6 +143,7 @@ class GymController extends AbstractController
 
         return $this->render('gym/index.html.twig', [
             'gyms' => $gymspagination,
+
         ]);
     }
 
