@@ -24,7 +24,12 @@
         <!-- End layout styles -->
         <link rel="shortcut icon" href="{{ asset('Back/assets/images/favicon.png') }}" />
     {% endblock %}
-
+    <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
+    <script>
+        Weglot.initialize({
+            api_key: 'wg_eb1cb7681d201492c0c7577277bd84f00'
+        });
+    </script>
 </head>
 <body>
 {% block nav %}
