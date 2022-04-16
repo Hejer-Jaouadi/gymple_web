@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Room;
 use App\Form\RoomType;
+use App\Repository\GymRepository;
 use App\Repository\RoomRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +16,26 @@ use Knp\Component\Pager\PaginatorInterface;
  */
 class RoomController extends AbstractController
 {
+    /**
+     * @Route("/stats", name="app_room_stats")
+     */
+    public function statistics(RoomRepository $roomRepository, GymRepository $gymRepository): response
+    {
+        $gyms = $gymRepository->findAll();
+        $rooms = $roomRepository->findAll();
+
+        $roomName = [];
+        $roomCount = [];
+        
+
+
+        return $this->render('room/stats.html.twig', [
+            'gyms' => $gyms,
+            'rooms' => $rooms,
+        ]);
+
+    }
+
     /**
      * @Route("/", name="app_room_index", methods={"GET" , "POST"})
      */
@@ -143,12 +164,6 @@ class RoomController extends AbstractController
         return $this->redirectToRoute('app_room_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    /**
-     * @Route("/stats", name="app_room_stats")
-     */
-    public function statistics(): response
-    {
-        return $this->render('room/stats.html.twig');
-    }
+
 
 }
