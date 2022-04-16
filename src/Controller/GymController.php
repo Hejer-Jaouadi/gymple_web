@@ -23,6 +23,30 @@ use Dompdf\Options;
 class GymController extends AbstractController
 {
     /**
+     * @Route("/stats", name="app_gym_stats")
+     */
+    public function statistics(RoomRepository $roomRepository, GymRepository $gymRepository): response
+    {
+        $gyms = $gymRepository->findAll();
+
+
+        $gymName = [];
+        $gymCount = [];
+        // On "démonte" les données pour les séparer tel qu'attendu par ChartJS
+        foreach($gyms as $gym){
+            $gymName[] = $gym->getLocation();
+            $gymCount[]= count($gym->getRooms());
+        }
+
+
+        return $this->render('gym/stats.html.twig', [
+            'gymName' => json_encode($gymName),
+            'gymCount' => json_encode($gymCount)
+
+        ]);
+
+    }
+    /**
      * @Route("/gymfront", name="app_gym_front", methods={"GET"})
      */
     public function gymFront(GymRepository $gymRepository , RoomRepository $roomRepository): Response

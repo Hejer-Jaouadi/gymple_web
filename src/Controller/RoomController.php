@@ -16,25 +16,7 @@ use Knp\Component\Pager\PaginatorInterface;
  */
 class RoomController extends AbstractController
 {
-    /**
-     * @Route("/stats", name="app_room_stats")
-     */
-    public function statistics(RoomRepository $roomRepository, GymRepository $gymRepository): response
-    {
-        $gyms = $gymRepository->findAll();
-        $rooms = $roomRepository->findAll();
 
-        $roomName = [];
-        $roomCount = [];
-        
-
-
-        return $this->render('room/stats.html.twig', [
-            'gyms' => $gyms,
-            'rooms' => $rooms,
-        ]);
-
-    }
 
     /**
      * @Route("/", name="app_room_index", methods={"GET" , "POST"})
