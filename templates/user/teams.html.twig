@@ -16,23 +16,12 @@
                 <div class="col-lg-6">
                     <nav class="nav-menu">
                         <ul>
-                            <li><a class="nav-link" href="{{ path('home') }}">Home</a></li>
+                            <li><a class="nav-link" href="{{ path('homeMember') }}">Home</a></li>
                             <li><a href="#">About Us</a></li>
                             <li><a href="#">Classes</a></li>
                             <li><a href="#">GYMS</a></li>
                             <li class="active"><a href="#">Our Team</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="#">About us</a></li>
-                                    <li><a href="#">Classes timetable</a></li>
-                                    <li><a href="#">Bmi calculate</a></li>
-                                    <li><a href="#">Our team</a></li>
-                                    <li><a href="#">Gallery</a></li>
-                                    <li><a href="#">Our blog</a></li>
-                                    <li><a href="#">404</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a  href="{{ path('editMember', {'id': app.session.get('id')}) }}">My Account</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -92,6 +81,7 @@
              {% if user.role=="trainer"%}
                 <div class="col-lg-4 col-sm-6">
                     <div class="ts-item set-bg" data-setbg="Front/img/team/team-1.jpg">
+                                                <a class="btn btn-outline-danger btn-fw" href="{{ path('app_user_report', {'id': user.id}) }}">Report</a>
                         <div class="ts_text">
                             <h4>{{user.firstName~" "~user.lastName}}</h4>
                             <span>Gym Trainer</span>

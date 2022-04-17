@@ -59,7 +59,7 @@
                             </div>
                             <div class="preview-item-content">
                                 <p class="preview-subject ellipsis mb-1 text-small">Account settings</p>
-                                <a class="nav-link" href="{{ path('app_user_editAcc', {'id': 13}) }}">
+                                <a class="nav-link" href="{{ path('app_user_editAcc', {'id': app.session.get('id')}) }}">
 
                             </div>
                         </a>
@@ -291,7 +291,7 @@
 
                                         <i class="mdi mdi-settings text-success"></i>
                                     </div>
-                                    <a class="nav-link" href="{{ path('app_user_editAcc', {'id': 13}) }}">
+                                <a class="nav-link" href="{{ path('app_user_editAcc', {'id': app.session.get('id')}) }}">
 
                                 </div>
                                 <div class="preview-item-content">
@@ -318,6 +318,7 @@
                                 <div class="preview-thumbnail">
                                     <div class="preview-icon bg-dark rounded-circle">
                                         <i class="mdi mdi-logout text-danger"></i>
+                                        <a class="nav-link" href="{{ path('loggi')}}">
                                     </div>
                                 </div>
                                 <div class="preview-item-content">

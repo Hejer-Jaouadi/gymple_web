@@ -1,0 +1,72 @@
+{% extends 'baseFront.html.twig' %}
+
+
+{% block body %}
+    
+<!-- Header Section Begin -->
+    <header class="header-section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="logo">
+                        <a href="#">
+                            <img src="{{ asset('Front/img/logo.png') }}" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <nav class="nav-menu">
+                        <ul>
+                            <li ><a href="{{ path('homeMember') }}">Home</a></li>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Classes</a></li>
+                            <li><a href="#">GYMS</a></li>
+                            <li><a class="nav-link" href="{{ path('team') }}">Our Team</a> </li>
+                            <li class="active"><a href="#">My Account</a>
+                                
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3">
+                    <div class="top-option">
+                        <div class="to-search search-switch">
+                            <i class="fa fa-search"></i>
+                        </div>
+                        <div class="to-social">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-youtube-play"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="canvas-open">
+                <i class="fa fa-bars"></i>
+            </div>
+        </div>
+    </header>
+    <!-- Header End -->
+
+    <!-- BMI Calculator Section Begin -->
+    <section class="bmi-calculator-section spad">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-6">
+                    <div class="section-title chart-calculate-title">
+                        <span>check your body</span>
+                        <h2>My Account</h2>
+                    </div>
+                    <div class="chart-calculate-form">
+                        <p>This Is Your Own Gymple Journey.</p>
+                           {{ include('user/_register_form.html.twig') }}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- BMI Calculator Section End -->
+{% endblock %}

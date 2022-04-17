@@ -87,7 +87,7 @@ class User
 
     /**
      * @var float|null
-     *@Assert\Type("int")
+     *@Assert\Type("float")
      * @ORM\Column(name="height", type="float", precision=10, scale=0, nullable=true, options={"default"="NULL"})
      * 
      */
@@ -95,7 +95,7 @@ class User
 
     /**
      * @var float|null
-     *@Assert\Type("int")
+     *@Assert\Type("float")
      * @ORM\Column(name="weight", type="float", precision=10, scale=0, nullable=true, options={"default"="NULL"})
      * 
      */
@@ -414,6 +414,25 @@ class User
             //->priority(Email::PRIORITY_HIGH)
             ->subject("Password")
             ->text('This is your password :'.$this->password);
+
+        $mailer->send($email);
+
+
+        // ...
+    }
+
+    public function sendCode(MailerInterface $mailer)
+    {
+        
+        $email = (new Email())
+            ->from('asma.hejaiej@esprit.tn')
+            ->to('hejaiej.asma@gmail.com')
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject("Code")
+            ->text('This is your code :'.$this->code);
 
         $mailer->send($email);
 
