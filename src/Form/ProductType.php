@@ -2,10 +2,12 @@
 
 namespace App\Form;
 
+use Symfony\Component\DomCrawler\Image;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ProductType extends AbstractType
 {
@@ -17,6 +19,7 @@ class ProductType extends AbstractType
             ->add('description')
             ->add('category')
             ->add('price')
+            ->add('imageFile',VichImageType::class)
 
         ;
     }

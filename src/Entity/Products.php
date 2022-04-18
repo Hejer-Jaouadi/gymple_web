@@ -5,8 +5,10 @@ namespace App\Entity;
 use App\Repository\ProductsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * @ORM\Entity(repositoryClass=ProductsRepository::class)
+ * @Vich\Uploadable
  */
 class Products
 {
@@ -51,9 +53,16 @@ class Products
     private $price;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255,nullable=true)
+     * @var string
      */
-    private $img;
+    private $image;
+
+    /**
+     * @Vich\UploadableField(mapping="product_images", fileNameProperty="image")
+     * @var File
+     */
+    private $imageFile;
 
 
 
@@ -129,15 +138,32 @@ class Products
         return $this;
     }
 
-    public function getImg(): ?string
+    public function setImageFile( $image = null)
     {
-        return $this->img;
+        $this->imageFile = $image;
+
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($image) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updatedAt = new \DateTime('now');
+        }
     }
 
-    public function setImg(?string $img): self
+    public function getImageFile()
     {
-        $this->img = $img;
+        return $this->imageFile;
+    }
 
-        return $this;
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
     }
 }
