@@ -23,6 +23,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @Route("/user")
@@ -33,17 +34,27 @@ class UserController extends AbstractController
     /**
      * @Route("/", name="app_user_index", methods={"GET"})
      */
-    public function index(EntityManagerInterface $entityManager,SessionInterface $session): Response
+    public function index(EntityManagerInterface $entityManager,SessionInterface $session,PaginatorInterface $paginator,Request $request): Response
     {
         $user=$session->get('user');
         $users = $entityManager
             ->getRepository(User::class)
             ->findAll();
+            $userspagination = $paginator->paginate(
+                $users, // on passe les donnees
+                $request->query->getInt('page', 1),// Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                5
+            );
 
         return $this->render('user/index.html.twig', [
-            'users' => $users,
+            'users' => $userspagination,
         ]);
     }
+   
+
+        
+
+        
 
    /* public function start_session(){
         $session = new Session(new NativeSessionStorage());
