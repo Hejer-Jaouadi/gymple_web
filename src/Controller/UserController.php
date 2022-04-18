@@ -87,6 +87,29 @@ class UserController extends AbstractController
         ]);
     }
 
+    public function codeFront(Request $request, EntityManagerInterface $entityManager,MailerInterface $m,SessionInterface $session): Response
+    {
+        $user = new User();
+        $form = $this->createForm(CodeType::class, $user);
+        $form->handleRequest($request);
+        $session = $request->getSession();
+        $user=$session->get('user')[0];
+        
+
+        if ($form->isSubmitted()) {
+            $code = $form->get('code')->getData();
+            if($code==$user->getCode()){
+                return $this->redirectToRoute('homeMember', [], Response::HTTP_SEE_OTHER);
+            }
+        }
+
+        return $this->render('user/codeFront.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
+    }
+
+
     /**
      * @Route("/new", name="app_user_new", methods={"GET", "POST"})
      */
@@ -415,6 +438,37 @@ class UserController extends AbstractController
  
         }
          return $this->render('user/code.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
+        }
+
+
+        public function loginemailFront(Request $request, EntityManagerInterface $entityManager,UserRepository $rep,SessionInterface $session,MailerInterface $m): Response
+    {
+        $user = new User();
+        $form = $this->createForm(EmailType::class, $user);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted())
+        {
+          
+            $ok=$rep->findByEmailA($user->getEmail());
+            if ($ok!=null){
+                
+                
+                $session = $request->getSession();
+                $session->set('user',$ok);
+                $session->set('id',$ok[0]->getId());
+                $random = random_int(1, 10);
+                $ok[0]->setCode($random);
+                $ok[0]->sendCode($m);
+                $entityManager->flush();
+            return $this->redirectToRoute('codeFront', [], Response::HTTP_SEE_OTHER);}
+ 
+        }
+         return $this->render('user/emailFront.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);

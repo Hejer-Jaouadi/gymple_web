@@ -30,10 +30,16 @@ homeAdmin:
    controller: App\Controller\UserController::index  
 code:
    path: /password
-   controller: App\Controller\UserController::code  
+   controller: App\Controller\UserController::code 
+codeFront:
+   path: /passwordFront
+   controller: App\Controller\UserController::codeFront     
 email:
    path: /loginpass
-   controller: App\Controller\UserController::loginemail   
+   controller: App\Controller\UserController::loginemail
+emailFront:
+   path: /loginmail
+   controller: App\Controller\UserController::loginemailFront       
 editMember:
    path: /{id}/editMyAccount
    controller: App\Controller\UserController::editMember      

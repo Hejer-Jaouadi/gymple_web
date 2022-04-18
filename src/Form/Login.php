@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+
 class Login extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -15,7 +17,7 @@ class Login extends AbstractType
            
             
             ->add('email')
-            ->add('password')
+            ->add('password',PasswordType::class)
             ->add('login',SubmitType::class)
         ;
     }
