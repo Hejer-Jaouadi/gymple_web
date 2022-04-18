@@ -470,6 +470,7 @@ class UserController extends AbstractController
                 
                 
                 $session = $request->getSession();
+
                 $session->set('user',$ok);
                 $session->set('id',$ok[0]->getId());
                 $random = random_int(1, 10);
@@ -479,7 +480,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('codeFront', [], Response::HTTP_SEE_OTHER);}
  
         }
-         return $this->render('user/emailFront.html.twig', [
+         return $this->render('user/LoginEmailFront.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
