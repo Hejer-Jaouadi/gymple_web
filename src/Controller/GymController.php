@@ -49,12 +49,19 @@ class GymController extends AbstractController
     /**
      * @Route("/gymfront", name="app_gym_front", methods={"GET"})
      */
-    public function gymFront(GymRepository $gymRepository , RoomRepository $roomRepository): Response
+    public function gymFront(GymRepository $gymRepository , RoomRepository $roomRepository , Request $request,PaginatorInterface $paginator ): Response
     {
         $gyms = $gymRepository->findAll();
         $rooms = $roomRepository->findAll();
+
+        $gymspagination = $paginator->paginate(
+            $gyms, // on passe les donnees
+            $request->query->getInt('page', 1),// Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            2
+        );
+
         return $this->render('gym/gymfront.html.twig', [
-            'gyms' => $gyms,
+            'gyms' => $gymspagination,
             'rooms' => $rooms,
         ]);
     }

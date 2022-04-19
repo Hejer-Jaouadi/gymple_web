@@ -2,42 +2,60 @@
 
 
 {% block body %}
-    <!-- Pricing Section Begin -->
-    <section class="pricing-section service-pricing spad">
+
+
+    <section class="services-section spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title">
-                        <span>Our Sub-Gyms</span>
-                        <h2>Here you will find the different gyms with the different rooms belonging to that gym</h2>
+                        <span>Want to find more about our gym ? </span>
+                        <h2>Below you'll find sub-Gyms available :</h2>
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                {% for gym in gyms %}
-                    <div class="col-lg-4 col-md-8">
-                        <div class="ps-item">
-                            <h3>This gym has these following information : </h3>
-                            <div class="pi-price">
-                                <h2>{{ gym.location }}</h2>
-                                <span>{{ gym.facilities }}</span>
+
+            <div class="row">
+
+
+                    {% for gym in gyms %}
+
+
+
+
+                        <div class="col-lg-6 order-lg-2 col-md-9 p-10">
+                            <div class="ss-text" style="round: #252525; padding: 20px 70px; background-color: rgba(250,80,33,0.7)">
+
+
+
+                                    <h2 style="color: #000000">{{ gym.location }}</h2>
+                                    <span style="color: white">{{ gym.facilities }}</span>
+                                <h2 style="color: #000000">----------------------------</h2>
+                                <h2>And these different rooms </h2>
+                                <ul style="color: white ">
+                                    {% for room in rooms %}
+                                        {% if room.idgym.idg == gym.idg %}
+                                            <li>{{ room.roomname }}</li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+
                             </div>
-                            <h2>And these different rooms </h2>
-                            <ul>
-                                {% for room in rooms %}
-                                    {% if room.idgym.idg == gym.idg %}
-                                        <li>{{ room.roomname }}</li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
-
                         </div>
-                    </div>
-                {%  endfor %}
+
+                    {%  endfor %}
 
 
-            </div>
+
+
+
+           </div>
+            {{ knp_pagination_render(gyms) }}
         </div>
+
+
     </section>
-    <!-- Pricing Section End -->
+
+
+
 {% endblock %}
