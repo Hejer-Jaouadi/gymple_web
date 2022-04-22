@@ -33,9 +33,9 @@ class GymController extends AbstractController
         $gymName = [];
         $gymCount = [];
         // On "démonte" les données pour les séparer tel qu'attendu par ChartJS
-        foreach($gyms as $gym){
+        foreach ($gyms as $gym) {
             $gymName[] = $gym->getLocation();
-            $gymCount[]= count($gym->getRooms());
+            $gymCount[] = count($gym->getRooms());
         }
 
 
@@ -46,13 +46,18 @@ class GymController extends AbstractController
         ]);
 
     }
+
     /**
      * @Route("/gymfront", name="app_gym_front", methods={"GET"})
      */
-    public function gymFront(GymRepository $gymRepository , RoomRepository $roomRepository , Request $request,PaginatorInterface $paginator ): Response
+    public function gymFront(GymRepository $gymRepository, RoomRepository $roomRepository, Request $request, PaginatorInterface $paginator): Response
     {
+
+
+
         $gyms = $gymRepository->findAll();
         $rooms = $roomRepository->findAll();
+
 
         $gymspagination = $paginator->paginate(
             $gyms, // on passe les donnees
