@@ -54,21 +54,23 @@
                                     {% for room in rooms %}
                                         {% if room.idgym.idg == gym.idg %}
                                             <li>{{ room.roomname }}</li>
+
                                         {% endif %}
+
                                     {% endfor %}
                                 </ul>
                                 <img src="https://api.qrserver.com/v1/create-qr-code/?data={{gym.location}},{{ gym.facilities }}&amp;size=50x50" alt="" title="Gym information is as follows :" style="margin-left: 390px"/>
 
-                                <iframe
+                           <!--     <iframe
                                         width="450"
                                         height="250"
                                         frameborder="0" style="border:0"
                                         referrerpolicy="no-referrer-when-downgrade"
                                         src="https://www.google.com/maps/embed/v1/place
                                               ?key=AIzaSyBH5SwI3-vnc_Td97ezoJKhTGQ8kDceBC0
-                                                &q={{ gym.location }}"
+                                                &q="
                                         allowfullscreen>
-                                </iframe>
+                                </iframe>-->
 
 
                             </div>
