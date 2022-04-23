@@ -48,12 +48,45 @@ class GymController extends AbstractController
     }
 
     /**
-     * @Route("/gymfront", name="app_gym_front", methods={"GET"})
+     * @Route("/gymfront", name="app_gym_front", methods={"GET", "POST"})
      */
     public function gymFront(GymRepository $gymRepository, RoomRepository $roomRepository, Request $request, PaginatorInterface $paginator): Response
     {
 
+        if ( $request->isMethod('POST')) {
 
+
+
+
+                $type = $request->request->get('optionsearch');
+                $value = $request->request->get('Search');
+                switch ($type){
+                    case 'location':
+                        $gyms = $gymRepository->findByLocation($value);
+                        $rooms= $roomRepository->findAll();
+                        break;
+
+                    case 'facilities':
+                        $gyms = $gymRepository->findByFacilities($value);
+                        $rooms= $roomRepository->findAll();
+                        break;
+
+
+                }
+
+
+
+            $gymspagination = $paginator->paginate(
+                $gyms, // on passe les donnees
+                $request->query->getInt('page', 1),// Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                2
+            );
+
+            return $this->render('gym/gymfront.html.twig', [
+                'gyms' => $gymspagination,
+                'rooms' => $rooms,
+            ]);
+        }
 
         $gyms = $gymRepository->findAll();
         $rooms = $roomRepository->findAll();

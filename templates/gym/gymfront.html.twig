@@ -16,7 +16,27 @@
                 </div>
             </div>
 
+            <ul class="navbar-nav w-100">
+                <li class="nav-item w-100">
+                    <form name="Search-method" id="Search-method" method="post" class="forms-sample" style="display: flex ">
+                        <div class="form-group col-md-3">
+                            <select name="optionsearch" class="js-example-basic-single" style="width: 200px;height: 38px; color: white; background-color: #191c24; border-radius: 4px;text-align: center;border: 2px solid #e76000;margin-right: 15px;">
+                                <option value="location">Location</option>
+                                <option value="facilities">Facilities</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-9">
+                            <div class="input-group">
+                                <input name="Search" type="text" class="form-control" placeholder="Search Gyms" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-sm btn-primary" style="margin-right: 25px;border-right: 2px " type="Submit">Search</button>
+                                </div>
 
+                            </div>
+                        </div>
+                    </form>
+                </li>
+            </ul>
             <div class="row">
 
 
@@ -38,9 +58,27 @@
                                     {% endfor %}
                                 </ul>
                                 <img src="https://api.qrserver.com/v1/create-qr-code/?data={{gym.location}},{{ gym.facilities }}&amp;size=50x50" alt="" title="Gym information is as follows :" style="margin-left: 390px"/>
+
+                                <iframe
+                                        width="450"
+                                        height="250"
+                                        frameborder="0" style="border:0"
+                                        referrerpolicy="no-referrer-when-downgrade"
+                                        src="https://www.google.com/maps/embed/v1/place
+                                              ?key=AIzaSyBH5SwI3-vnc_Td97ezoJKhTGQ8kDceBC0
+                                                &q={{ gym.location }}"
+                                        allowfullscreen>
+                                </iframe>
+
+
                             </div>
                         </div>
+                    {% else %}
+                        <div style="display: grid;">
+                            <label style="width: 122%;margin: auto;margin-bottom: 13px;margin-top: 30px;margin-left: 250px;border: 2px solid #0090e7;padding: 10px;border-radius: 20px;border-left: 2px solid #f30092;border-right: 2px solid rgb(243,0,146);text-align: center; font-style: oblique;color: #f36100;"> NO GYMS FOUND WITH SUCH CRITERIA</label>
+                        </div>
                     {%  endfor %}
+
 
 
            </div>
@@ -48,7 +86,7 @@
 
 
             <div class="blog-pagination">
-                <a>{{ knp_pagination_render(gyms) }}</a>
+                {{ knp_pagination_render(gyms) }}
             </div>
         </div>
 
