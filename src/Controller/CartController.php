@@ -54,6 +54,19 @@ class CartController extends AbstractController
 
         ]);
     }
+
+    /**
+     * @Route("/commandsBack", name="command_back_index")
+     */
+    public function commandDisplayBack(SessionInterface $session , CommandsRepository $commandsRepository): Response
+    {
+        $command = $this->getDoctrine()->getManager()->getRepository(commands::class)->findAll();
+
+        return $this->render('product/displayCommands.html.twig', [
+            'commands'=>$command,
+
+        ]);
+    }
     /**
      * @Route("/panier/add/{id}", name="cart_add")
      */
