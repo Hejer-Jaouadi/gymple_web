@@ -137,7 +137,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for product in p  %}
+                                    {% for product in product  %}
                                         <tr>
                                             <td>{{ product.IdP }}</td>
                                             <td>{{ product.name }}</td>
@@ -161,7 +161,9 @@
 
                                 </table>
 
+
                             </div>
+                            {{ knp_pagination_render(product) }}
 
 
                         </div>
