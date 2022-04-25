@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\CoursesRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CoursesRepository::class)
@@ -16,50 +15,54 @@ class Courses
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Assert\Unique
      */
     private $id;
 
     /**
      * @ORM\Column(type="date")
-     * @Assert\NotEqualTo("00:00:00")
+     * @Assert\NotNull(message="date can't be null")
+     * 
      */
     private $date;
 
     /**
      * @ORM\Column(type="time")
-     * @Assert\NotEqualTo("00:00")
+     * @Assert\NotNull(message="starting time can't be null")
      */
-    private $startTime;
+    private $start_time;
 
     /**
      * @ORM\Column(type="time")
-     * @Assert\NotEqualTo("00:00")
+     * @Assert\NotNull(message="ending time can't be null")
      */
-    private $endTime;
+    private $end_time;
 
     /**
+     * 
      * @ORM\Column(type="integer")
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="the field 'spots' cannot be empty")
      * @Assert\Range(min=1)
      */
-    private $spots;
+    private $nbr;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="courses")
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message="please specify a category, the category field cannot be empty")
      */
     private $category;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
+     * @ORM\ManyToOne(targetEntity=Planning::class, inversedBy="courses")
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message="please specify an address, the address field cannot be empty") 
      */
     private $address;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="courses")
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message="please specify a trainer, the trainer field cannot be empty")
      */
     private $trainer;
 
@@ -73,7 +76,7 @@ class Courses
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(?\DateTimeInterface $date): self
     {
         $this->date = $date;
 
@@ -82,73 +85,76 @@ class Courses
 
     public function getStartTime(): ?\DateTimeInterface
     {
-        return $this->startTime;
+        return $this->start_time;
     }
 
-    public function setStartTime(\DateTimeInterface $startTime): self
+    public function setStartTime(?\DateTimeInterface $start_time): self
     {
-        $this->startTime = $startTime;
+        $this->start_time = $start_time;
 
         return $this;
     }
 
     public function getEndTime(): ?\DateTimeInterface
     {
-        return $this->endTime;
+        return $this->end_time;
     }
 
-    public function setEndTime(\DateTimeInterface $endTime): self
+    public function setEndTime(?\DateTimeInterface $end_time): self
     {
-        $this->endTime = $endTime;
+        $this->end_time = $end_time;
 
         return $this;
     }
 
-    public function getSpots(): ?int
+    public function getNbr(): ?int
     {
-        return $this->spots;
+        return $this->nbr;
     }
 
-    public function setSpots(int $spots): self
+    public function setNbr(int $nbr): self
     {
-        $this->spots = $spots;
+        $this->nbr = $nbr;
 
         return $this;
     }
 
-    public function getCategory(): ?string
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    public function setCategory(string $category): self
+    public function setCategory(?Category $category): self
     {
         $this->category = $category;
 
         return $this;
     }
 
-    public function getAddress(): ?string
+    public function getAddress(): ?Planning
     {
         return $this->address;
     }
 
-    public function setAddress(string $address): self
+    public function setAddress(?Planning $address): self
     {
         $this->address = $address;
 
         return $this;
     }
 
-    public function getTrainer(): ?string
+
+    public function getTrainer(): ?User
     {
         return $this->trainer;
     }
 
-    public function setTrainer(string $trainer): self
+    public function setTrainer(?User $trainer): self
     {
         $this->trainer = $trainer;
 
         return $this;
     }
+
+    
 }

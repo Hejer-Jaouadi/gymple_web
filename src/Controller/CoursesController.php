@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 
 /**
@@ -30,6 +32,33 @@ class CoursesController extends AbstractController
             
         ]);
     }
+    /**
+     * @Route("/timetable", name="app_time_front", methods={"GET"})
+     */
+    public function Calendar(CoursesRepository $coursesRepository): Response
+    {
+        $events = $coursesRepository ->findAll();
+        $rdvs =[];
+
+        foreach($events as $event){
+            $rdvs[] = [
+                'id'=>$event->getId(),
+                'start'=>$event->getDate()->format('Y-m-d')." ".$event->getStartTime()->format('H:i'),
+                'end'=>$event->getDate()->format('Y-m-d')." ".$event->getEndTime()->format('H:i'),
+                'title'=>$event->getCategory()->getName(),
+                //'description'=>$event->getTrainer()->getFirstName()." ".$event->getTrainer()->getLastName(),
+                //'backgroundColor'=>$event->getBackgroundColor(),
+                //'borderColor'=>$event->getBorderColor(),
+                //'textColor'=>$event->getTextColor(),
+                //'allDay'=>$event->getAllDay()
+                
+
+
+            ];
+        }
+        $data = json_encode($rdvs);
+        return $this->render('courses\time_table.html.twig', compact('data'));
+    }
     
     /**
      * @Route("/", name="app_courses_index", methods={"GET"})
@@ -38,11 +67,46 @@ class CoursesController extends AbstractController
     {
         $courses = $coursesRepository->findAll();
 
-        $coursepagination = $paginator->paginate($courses, $request->query->getInt('page', 1), 5);
+        $coursepagination = $paginator->paginate($courses, $request->query->getInt('page', 1), 3);
 
         return $this->render('courses/index.html.twig', [
             'courses' => $coursepagination,
         ]);
+    }
+    /**
+     * @Route("/coursesinfo", name="app_courses_info", methods={"GET"})
+     */
+    public function courseinfo(coursesRepository $coursesRepository): Response
+    {
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+        $courses = $coursesRepository->findAll();
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('courses/courseinfo.html.twig', [
+            'course' => $courses,
+        ]);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("CoursesList.pdf", [
+            "Attachment" => true
+        ]);
+
+        return $this->redirectToRoute('app_courses_info', [], Response::HTTP_SEE_OTHER);
+
     }
 
     /**

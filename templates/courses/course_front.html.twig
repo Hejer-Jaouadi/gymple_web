@@ -1,5 +1,122 @@
 {% extends 'base_front.html.twig' %}
+{% block nav %}
+     <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
 
+    <!-- Offcanvas Menu Section Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+        <div class="canvas-close">
+            <i class="fa fa-close"></i>
+        </div>
+        <div class="canvas-search search-switch">
+            <i class="fa fa-search"></i>
+        </div>
+        <nav class="canvas-menu mobile-menu">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Classes</a></li>
+                <li><a href="#">GYMS</a></li>
+                <li><a href="#">Our Team</a></li>
+                <li><a href="#">Pages</a>
+                    <ul class="dropdown">
+                        <li><a href="#">About us</a></li>
+                        <li><a href="#">Classes timetable</a></li>
+                        <li><a href="#">Bmi calculate</a></li>
+                        <li><a href="#">Our team</a></li>
+                        <li><a href="#">Gallery</a></li>
+                        <li><a href="#">Our blog</a></li>
+                        <li><a href="#">404</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <div id="mobile-menu-wrap"></div>
+        <div class="canvas-social">
+            <a href="#"><i class="fa fa-facebook"></i></a>
+            <a href="#"><i class="fa fa-twitter"></i></a>
+            <a href="#"><i class="fa fa-youtube-play"></i></a>
+            <a href="#"><i class="fa fa-instagram"></i></a>
+        </div>
+    </div>
+    <!-- Offcanvas Menu Section End -->
+
+    <!-- Header Section Begin -->
+    <header class="header-section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="logo">
+                        <a href="#">
+                            <img src="{{ asset('front/img/2.png') }}" alt="" style="width:150px; heigth:150px">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <nav class="nav-menu">
+                        <ul>
+                            <li><a href="/home">Home</a></li>
+                            <li ><a href="/blog">Blog</a></li>
+                            <li class="active"><a href="/courses/coursefront">courses</a></li>
+                            <li ><a href="/courses/timetable">Time-Table</a></li>
+                            <li><a href="/courses">Admin</a></li>
+                            <li><a href="#">Pages</a>
+                                <ul class="dropdown">
+                                    <li><a href="#">About us</a></li>
+                                    <li><a href="#">Classes timetable</a></li>
+                                    <li><a href="#">Bmi calculate</a></li>
+                                    <li><a href="#">Our team</a></li>
+                                    <li><a href="#">Gallery</a></li>
+                                    <li><a href="#">Our blog</a></li>
+                                    <li><a href="#">404</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">sports news</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3">
+                    <div class="top-option">
+                        <div class="to-search search-switch">
+                            <i class="fa fa-search"></i>
+                        </div>
+                        <div class="to-social">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-youtube-play"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="canvas-open">
+                <i class="fa fa-bars"></i>
+            </div>
+        </div>
+    </header>
+    <!-- Header End -->
+      <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('front/img/breadcrumb-bg.jpg') }}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb-text">
+                        <h2>COURSES</h2>
+                        <div class="bt-option">
+                            <a href="#">Home</a>
+                            <span>courses</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+{% endblock %}
 
 {% block body %}
     <!-- Pricing Section Begin -->
@@ -19,9 +136,9 @@
                         <div class="ps-item">
                             <h3>COURSE OF  </h3>
                             <div class="pi-price">
-                                {% if course.idCt == category.idCt %}
-                                <h2>{{ course.category.name }}</h2>
-                                <% endif %>
+                                
+                                <h2>{{ course.category }}</h2>
+                                
                                 <span>{{ course.address }}</span>
                             </div>
                             <h3>TIME: </h3>
@@ -35,11 +152,12 @@
                                 <h2>with coach</h2>
                             
                             <ul>
-                                <h2>{{ course.trainer}}</h2>
+                                <h2>{{ course.trainer.firstName }} {{course.trainer.lastName}}</h2>
                                                               
                             </ul>
                             </div>
                             <a class="btn btn-outline-primary btn-fw" href="#" style="background-color: #ff6600;">Make reservation</a>
+                            <a class="btn btn-outline-primary btn-fw" href="/tips/tipfront/{{course.category.id}}" style="background-color: #ff6600;">Show Tips</a>
                         </div>
                     </div>
                 {%  endfor %}

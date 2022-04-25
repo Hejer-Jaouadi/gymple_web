@@ -2,6 +2,7 @@
 <html lang="zxx">
 
 <head>
+
     {% block stylesheets %}
         <meta charset="UTF-8">
         <meta name="description" content="Gym Template">
@@ -17,6 +18,7 @@
 
 
         <!-- Css Styles -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css">
         <link rel="stylesheet" href="{{ asset('Front/css/bootstrap.min.css') }}" type="text/css">
         <link rel="stylesheet" href="{{ asset('Front/css/font-awesome.min.css') }}" type="text/css">
         <link rel="stylesheet" href="{{ asset('Front/css/flaticon.css') }}" type="text/css">
@@ -91,10 +93,10 @@
                 <div class="col-lg-6">
                     <nav class="nav-menu">
                         <ul>
-                            <li><a href="#">Home</a></li>
-                            <li class="active"><a href="/tips/tipfront">Tips</a></li>
-                            <li class="active"><a href="/courses/coursefront">Classes</a></li>
-                            <li ><a href="#">GYMS</a></li>
+                            <li><a href="/home">Home</a></li>
+                            <li ><a href="/blog">Blog</a></li>
+                            <li class="active"><a href="/courses/coursefront">courses</a></li>
+                            <li ><a href="/courses/timetable">Time-Table</a></li>
                             <li><a href="/courses">Admin</a></li>
                             <li><a href="#">Pages</a>
                                 <ul class="dropdown">
@@ -133,15 +135,15 @@
     <!-- Header End -->
 
     <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('Front/img/breadcrumb-bg.jpg') }}">
+    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('front/img/breadcrumb-bg.jpg') }}">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb-text">
-                        <h2>COURSES</h2>
+                        <h2>GYMPLE</h2>
                         <div class="bt-option">
                             <a href="#">Home</a>
-                            <span>Courses</span>
+                            <span>Gymple</span>
                         </div>
                     </div>
                 </div>
@@ -270,7 +272,7 @@
 </div>
 <!-- Search model end -->
 
-
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
 {% block javascripts %}
 
     <!-- Js Plugins -->

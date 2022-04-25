@@ -1,0 +1,152 @@
+{% block stylesheets %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>GYMPLE</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{{ asset('Back/assets/vendors/mdi/css/materialdesignicons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('Back/assets/vendors/css/vendor.bundle.base.css') }}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{{ asset('Back/assets/vendors/jvectormap/jquery-jvectormap.css') }}">
+    <link rel="stylesheet" href="{{ asset('Back/assets/vendors/flag-icon-css/css/flag-icon.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('Back/assets/vendors/owl-carousel-2/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('Back/assets/vendors/owl-carousel-2/owl.theme.default.min.css') }}">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{{ asset('Back/assets/css/style.css') }}">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="{{ asset('Back/assets/images/favicon.png') }}" />
+
+    <style>
+
+        .pagination{
+            justify-content: center;
+            padding-top: 20px;
+            border-top: 2px dotted #3c3a3e;
+            margin-top: 11px;
+        }
+        .current{
+            margin: 0px 5px 0px 5px;
+            border-radius: 50%;
+            width: 2%;
+            text-align: center;
+            border: solid #3c3c3c;
+        }
+
+        .page{
+            margin: 0px 5px 0px 5px;
+            border-radius: 50%;
+            width: 2%;
+            text-align: center;
+            border: solid #3c3c3c;
+        }
+
+        .page a{
+            color: white;
+        }
+
+        .previous a{
+            color: white;
+            margin-left: 5px;
+            border-bottom: 1px solid #00d25b;
+        }
+        .next a{
+            color: white;
+            margin-right: 5px;
+            border-bottom: 1px solid #00d25b;
+        }
+
+        .first a{
+            color: #00d25b;
+            margin-left: 5px;
+            border-bottom: 1px solid #00d25b;
+        }
+        .last a{
+            color: #00d25b;
+            border-bottom: 1px solid #00d25b;
+        }
+    </style>
+
+    <style>
+        .form-check .form-check-label input[type="radio"] + .input-helper:before {
+            border: solid #00d25b;
+
+        }
+
+        .form-check .form-check-label input[type="radio"]:checked + .input-helper:before {
+            background-color: #00d25b;
+        }
+
+        .table thead th, .jsgrid .jsgrid-table thead th {
+            color: #6e7178;
+        }
+
+        .table, .jsgrid .jsgrid-table {
+            color: #ffffff;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="page-header">
+                <h3 class="page-title"  >Saved tips</h3>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+
+
+                            <div class="table-responsive" >
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+
+                                        <th style="background-color: #ff6600;">
+                                                
+                                            </th>
+                                       
+
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for tip in tip %}
+                                        <tr>
+
+                                            <td style="background-color: #ff6600;">
+                                                <label class="badge badge-info" >{{ tip.caption }}</label>
+                                            </td>
+                                            <td style="background-color: #ff6600;">
+                                                <label class="badge badge-info" >{{  tip.text }}</label>
+                                            </td>
+                                            
+                                        <h3>-----------------------------------------------------------------------------</h3>    
+
+
+                                        </tr>
+                                    {% else %}
+                                        <div style="display: grid;">
+                                            <label style="width: 22%;margin: auto;margin-bottom: 13px;margin-top: 10px;border: 2px solid #0090e7;padding: 10px;border-radius: 20px;border-left: 2px solid red;border-right: 2px solid red;text-align: center; font-style: oblique;color: chartreuse;"> NO COURSES FOUND WITH SUCH CRITERIA</label>
+                                        </div>
+                                    {% endfor %}
+
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -3,9 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Tips;
+use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class TipsType extends AbstractType
 {
@@ -13,8 +15,16 @@ class TipsType extends AbstractType
     {
         $builder
             ->add('caption')
-            ->add('category')
             ->add('text')
+            ->add('category', EntityType::class, [
+                // looks for choices from this entity
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'multiple' => false,
+                'expanded' => false,
+                
+                 
+            ])
         ;
     }
 

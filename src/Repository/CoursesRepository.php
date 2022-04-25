@@ -4,11 +4,14 @@ namespace App\Repository;
 
 use App\Entity\Courses;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
+ * @extends ServiceEntityRepository<Courses>
+ *
  * @method Courses|null find($id, $lockMode = null, $lockVersion = null)
  * @method Courses|null findOneBy(array $criteria, array $orderBy = null)
  * @method Courses[]    findAll()
@@ -43,6 +46,99 @@ class CoursesRepository extends ServiceEntityRepository
         if ($flush) {
             $this->_em->flush();
         }
+    }
+    /**
+      * @return Courses[] Returns an array of Courses objects
+     */
+    
+    public function findByDate($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.date LIKE :val')
+            ->setParameter('val', '%'.$value.'%')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    
+    public function findByCategory($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.category LIKE :val')
+            ->setParameter('val', '%'.$value.'%')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    
+    public function findBytrainer($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.trainer LIKE :val')
+            ->setParameter('val', '%'.$value.'%')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    
+    public function findByAddress($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.date LIKE :val')
+            ->setParameter('val', '%'.$value.'%')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function SortByDate()
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.Date', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function SortByCategory()
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.Category', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function SortByAddress()
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.address', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function SortBytrainer()
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.trainer', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+     /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function removeExpired(): void
+    {
+         $this->createQueryBuilder('c')
+        ->delete()
+        ->where("c.date < :da")
+        ->setParameter('da',date("Y-m-d H:i:s"))
+        ->getQuery()
+        ->execute();
     }
 
     // /**

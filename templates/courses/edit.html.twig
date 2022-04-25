@@ -49,15 +49,15 @@
                             {{ form_start(form , {render_rest: true}  ,  {'attr' : {'novalidate' : 'novalidate'}}) }}
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Starting time:</label>
-                                {{ form_widget(form.startTime , {'attr' : {'class' : 'form-control' }}) }}
+                                {{ form_widget(form.start_time , {'attr' : {'class' : 'form-control' }}) }}
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Ending time:</label>
-                                {{ form_widget(form.endTime , {'attr' : {'class' : 'form-control' }}) }}
+                                {{ form_widget(form.end_time , {'attr' : {'class' : 'form-control' }}) }}
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Spots:</label>
-                                {{ form_widget(form.spots , {'attr' : {'class' : 'form-control' }}) }}
+                                {{ form_widget(form.nbr , {'attr' : {'class' : 'form-control' }}) }}
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Category:</label>
@@ -82,3 +82,10 @@
     </div>
     
 {% endblock %}
+
+
+
+
+
+
+

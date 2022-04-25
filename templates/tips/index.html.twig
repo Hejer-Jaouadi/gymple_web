@@ -73,16 +73,17 @@
                                             <td><label class="badge badge-info" style="background-color: #ff6600;">{{ tip.id }}</label></td>
                                             <td>{{ tip.caption }}</td>
                                             <td>{{ tip.category }}</td>
+                                            <td>{{ tip.text }}</td>
 
                                             <td style="width: 30%;">
                                                 <a class="btn btn-outline-primary btn-fw" href="{{ path('app_tips_show', {'id': tip.id}) }}">show</a>
-                                                <a class="btn btn-outline-primary btn-fw" href="{{ path('app_tips_edit', {'id': tip.id}) }}">edit</a>
+                                                <a class="btn btn-outline-primary btn-fw" href="{{ path('app_tips_edit', {'id': tip.id}) }}">edit</a> </br>
                                                 <a class="btn btn-outline-danger btn-fw" href="{{ path('app_tips_delete', {'id': tip.id , '_token' : csrf_token('delete' ~ tip.id) }) }}">delete</a>
                                             </td>
                                         </tr>
                                     {% else %}
                                         <div style="display: grid;">
-                                            <label style="width: 22%;margin: auto;margin-bottom: 13px;margin-top: 10px;border: 2px solid #0090e7;padding: 10px;border-radius: 20px;border-left: 2px solid red;border-right: 2px solid red;text-align: center; font-style: oblique;color: chartreuse;"> NO TIPS FOUND WITH SUCH CRITERIA</label>
+                                            <label style="width: 22%;margin: auto;margin-bottom: 13px;margin-top: 10px;border: 2px solid #0090e7;padding: 10px;border-radius: 20px;border-left: 2px solid red;border-right: 2px solid red;text-align: center; font-style: oblique;color: chartreuse;"> NO TIPS FOUND FOR THE MOMENT</label>
                                         </div>
                                     {% endfor %}
 
@@ -90,6 +91,7 @@
                                 </table>
 
                             </div>
+                            
                         </div>
                     </div>
                 </div>

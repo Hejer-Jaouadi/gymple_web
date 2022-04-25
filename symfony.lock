@@ -1,4 +1,7 @@
 {
+    "barryvdh/laravel-dompdf": {
+        "version": "v1.0.0"
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -18,10 +21,10 @@
         "version": "1.6.8"
     },
     "doctrine/common": {
-        "version": "3.2.2"
+        "version": "3.3.0"
     },
     "doctrine/dbal": {
-        "version": "3.3.4"
+        "version": "3.3.5"
     },
     "doctrine/deprecations": {
         "version": "v0.5.3"
@@ -68,22 +71,40 @@
         "version": "1.2.3"
     },
     "doctrine/migrations": {
-        "version": "3.4.1"
+        "version": "3.5.0"
     },
     "doctrine/orm": {
-        "version": "2.11.2"
+        "version": "2.12.0"
     },
     "doctrine/persistence": {
-        "version": "2.4.1"
+        "version": "2.5.1"
     },
     "doctrine/sql-formatter": {
         "version": "1.1.2"
+    },
+    "dompdf/dompdf": {
+        "version": "v1.2.1"
     },
     "egulias/email-validator": {
         "version": "3.1.2"
     },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.7"
+    },
+    "illuminate/collections": {
+        "version": "v9.9.0"
+    },
+    "illuminate/conditionable": {
+        "version": "v9.9.0"
+    },
+    "illuminate/contracts": {
+        "version": "v9.9.0"
+    },
+    "illuminate/macroable": {
+        "version": "v9.9.0"
+    },
+    "illuminate/support": {
+        "version": "v9.9.0"
     },
     "knplabs/knp-components": {
         "version": "v3.4.0"
@@ -100,6 +121,9 @@
     "myclabs/deep-copy": {
         "version": "1.11.0"
     },
+    "nesbot/carbon": {
+        "version": "2.57.0"
+    },
     "nikic/php-parser": {
         "version": "v4.13.2"
     },
@@ -108,6 +132,12 @@
     },
     "phar-io/version": {
         "version": "3.2.1"
+    },
+    "phenx/php-font-lib": {
+        "version": "0.5.4"
+    },
+    "phenx/php-svg-lib": {
+        "version": "0.4.1"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
@@ -161,6 +191,12 @@
     },
     "psr/log": {
         "version": "1.1.4"
+    },
+    "psr/simple-cache": {
+        "version": "3.0.0"
+    },
+    "sabberworm/php-css-parser": {
+        "version": "8.4.0"
     },
     "sebastian/cli-parser": {
         "version": "1.0.1"
@@ -232,7 +268,7 @@
         "version": "v4.4.40"
     },
     "symfony/cache-contracts": {
-        "version": "v2.5.0"
+        "version": "v2.5.1"
     },
     "symfony/config": {
         "version": "v4.4.37"
@@ -272,7 +308,7 @@
         "version": "v4.4.40"
     },
     "symfony/deprecation-contracts": {
-        "version": "v2.5.0"
+        "version": "v3.0.1"
     },
     "symfony/doctrine-bridge": {
         "version": "v4.4.39"
@@ -290,7 +326,7 @@
         "version": "v4.4.37"
     },
     "symfony/event-dispatcher-contracts": {
-        "version": "v1.1.11"
+        "version": "v1.1.12"
     },
     "symfony/expression-language": {
         "version": "v4.4.40"
@@ -341,7 +377,7 @@
         "version": "v4.4.40"
     },
     "symfony/http-client-contracts": {
-        "version": "v2.5.0"
+        "version": "v2.5.1"
     },
     "symfony/http-foundation": {
         "version": "v4.4.39"
@@ -493,7 +529,7 @@
         "version": "v4.4.40"
     },
     "symfony/service-contracts": {
-        "version": "v2.5.0"
+        "version": "v2.5.1"
     },
     "symfony/stopwatch": {
         "version": "v4.4.38"
@@ -512,7 +548,7 @@
         ]
     },
     "symfony/translation-contracts": {
-        "version": "v2.5.0"
+        "version": "v2.5.1"
     },
     "symfony/twig-bridge": {
         "version": "v4.4.40"
@@ -586,7 +622,10 @@
         "version": "v3.3.8"
     },
     "twig/twig": {
-        "version": "v3.3.9"
+        "version": "v3.3.10"
+    },
+    "voku/portable-ascii": {
+        "version": "2.0.1"
     },
     "webmozart/assert": {
         "version": "1.10.0"

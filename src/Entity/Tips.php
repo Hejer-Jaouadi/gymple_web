@@ -4,11 +4,11 @@ namespace App\Entity;
 
 use App\Repository\TipsRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Routing\Annotation\Route;
 /**
  * @ORM\Entity(repositoryClass=TipsRepository::class)
+ * 
  */
 class Tips
 {
@@ -16,27 +16,25 @@ class Tips
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Assert\Unique
+     * @ParamConverter("tips", options={"mapping": {"id"   : "id"}})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
      */
     private $caption;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
-     */
-    private $category;
-
-    /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank
      */
     private $text;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="tips")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
 
     public function getId(): ?int
     {
@@ -55,18 +53,6 @@ class Tips
         return $this;
     }
 
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(string $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
     public function getText(): ?string
     {
         return $this->text;
@@ -75,6 +61,18 @@ class Tips
     public function setText(string $text): self
     {
         $this->text = $text;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

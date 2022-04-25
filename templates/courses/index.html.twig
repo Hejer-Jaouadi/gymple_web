@@ -1,3 +1,4 @@
+
 {% extends 'base_back.html.twig' %}
 
 {% block title %}Courses index{% endblock %}
@@ -153,15 +154,15 @@
 									</thead>
 									<tbody>
 										{% for course in courses %}
-											<tr>
+											<tr style="position:center">
 												<td><label class="badge badge-info" style="background-color: #ff6600;">{{ course.id }}</label></td>
 												<td>{{ course.date ? course.date|date('Y-m-d') : '' }}</td>
-												<td>{{ course.startTime ? course.startTime|date('H:i:s') : '' }}</td>
-												<td>{{ course.endTime ? course.endTime|date('H:i:s') : '' }}</td>
-												<td>{{ course.spots }}</td>
-												<td>{{ course.category }}</td>
+												<td>{{ course.startTime ? course.startTime|date('H:i') : '' }}</td>
+												<td>{{ course.endTime ? course.endTime|date('H:i') : '' }}</td>
+												<td>{{ course.nbr }}</td>
+												<td>{{ course.category.name }}</td>
 												<td>{{ course.address }}</td>
-												<td>{{ course.trainer }}</td>
+												<td>{{ course.trainer.firstName }} {{course.trainer.lastName}}</td>
 												<td style="width: 30%;">
 													<a class="btn btn-outline-primary btn-fw" href="{{ path('app_courses_show', {'id': course.id}) }}">show</a>
 													<a class="btn btn-outline-primary btn-fw" href="{{ path('app_courses_edit', {'id': course.id}) }}">edit</a> </br></br>
@@ -170,11 +171,16 @@
 											</tr>
 										{% else %}
 											<div style="display: grid;">
-                                                <label style="width: 22%;margin: auto;margin-bottom: 13px;margin-top: 10px;border: 2px solid #0090e7;padding: 10px;border-radius: 20px;border-left: 2px solid red;border-right: 2px solid red;text-align: center; font-style: oblique;color: chartreuses;"> NO GYMS FOUND WITH SUCH CRITERIA</label>
+                                                <label style="width: 22%;margin: auto;margin-bottom: 13px;margin-top: 10px;border: 2px solid #0090e7;padding: 10px;border-radius: 20px;border-left: 2px solid red;border-right: 2px solid red;text-align: center; font-style: oblique;color: chartreuses;"> NO COURSES AT THE MOMENT</label>
                                             </div>
 										{% endfor %}
 									</tbody>
 								</table>
+								{{ knp_pagination_render(courses) }}
+                            <div class="input-group-append">
+
+                                <a class="btn btn-info btn-icon-text"; href="{{ path('app_courses_info') }}">  Print <i class="mdi mdi-printer btn-icon-append" ></i>
+                                </a>
 							</div>
 						</div>
 					</div>

@@ -4,11 +4,16 @@ namespace App\Repository;
 
 use App\Entity\Tips;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
+
 /**
+ * @extends ServiceEntityRepository<Tips>
+ *
  * @method Tips|null find($id, $lockMode = null, $lockVersion = null)
  * @method Tips|null findOneBy(array $criteria, array $orderBy = null)
  * @method Tips[]    findAll()
@@ -45,22 +50,29 @@ class TipsRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Tips[] Returns an array of Tips objects
-    //  */
-    /*
-    public function findByExampleField($value)
+     /**
+      * @return Tips[] Returns an array of Tips objects
+      */
+    
+    public function findByCategory($value)
     {
         return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('t.category = :val')
+            ->setParameter('val', $value,Types::INTEGER)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+    public function findById($value)
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.id = :val')
+            ->setParameter('val', $value,Types::INTEGER)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    
 
     /*
     public function findOneBySomeField($value): ?Tips

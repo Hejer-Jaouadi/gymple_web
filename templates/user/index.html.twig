@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User index{% endblock %}
+
+{% block body %}
+    <h1>User index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Role</th>
+                <th>First_name</th>
+                <th>Last_name</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Id_card</th>
+                <th>Height</th>
+                <th>Weight</th>
+                <th>Training_level</th>
+                <th>Cost_per_hour</th>
+                <th>Description</th>
+                <th>Experience</th>
+                <th>Picture</th>
+                <th>Membership</th>
+                <th>Gym</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.role }}</td>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.lastName }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.password }}</td>
+                <td>{{ user.idCard }}</td>
+                <td>{{ user.height }}</td>
+                <td>{{ user.weight }}</td>
+                <td>{{ user.trainingLevel }}</td>
+                <td>{{ user.costPerHour }}</td>
+                <td>{{ user.description }}</td>
+                <td>{{ user.experience }}</td>
+                <td>{{ user.picture }}</td>
+                <td>{{ user.membership }}</td>
+                <td>{{ user.gym }}</td>
+                <td>
+                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
+                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="17">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_user_new') }}">Create new</a>
+{% endblock %}

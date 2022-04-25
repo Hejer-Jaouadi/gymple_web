@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Tips;
+use App\Entity\Category;
 use App\Form\TipsType;
 use App\Repository\TipsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 /**
  * @Route("/tips")
@@ -16,19 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TipsController extends AbstractController
 {
     /**
-     * @Route("/tipfront", name="app_tips_front", methods={"GET"})
-     */
-    public function courseFront(TipsRepository $tipRepository): Response
-    {
-        $tips = $tipRepository->findAll();
-        
-        return $this->render('tips/tips_front.html.twig', [
-            'tips' => $tips,
-            
-        ]);
-    }
-    /**
-     * @Route("/tipindex", name="app_tips_index", methods={"GET"})
+     * @Route("/", name="app_tips_index", methods={"GET"})
      */
     public function index(TipsRepository $tipsRepository): Response
     {
@@ -56,6 +47,61 @@ class TipsController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    /**
+     * @Route("/tipsinfo/{tip}", name="app_tips_info", methods={"GET"})
+     */
+    public function tipinfo(TipsRepository $tipsRepository,$tip): Response
+    {
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+        if ($tip) {
+            $tips = $tipsRepository->findById($tip);
+        }
+        else {
+            $tips = $tipsRepository->findAll();
+        }
+        
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('tips/tipseinfo.html.twig', [
+            'tip' => $tips,
+        ]);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("SavedTip.pdf", [
+            "Attachment" => true
+        ]);
+
+        return $this->redirectToRoute('app_tips_info', [], Response::HTTP_SEE_OTHER);
+
+    }
+    /**
+     * @Route("/tipfront/{category}", name="app_tips_front", methods={"GET"})
+     */
+    public function tipFront(TipsRepository $tipRepository, $category): Response
+    {
+        echo $category;
+        $tips = $tipRepository->findByCategory($category);
+        
+        return $this->render('tips/tips_front.html.twig', [
+            'tips' => $tips,
+            
+        ]);
+    }
+
 
     /**
      * @Route("/{id}", name="app_tips_show", methods={"GET"})
@@ -97,4 +143,4 @@ class TipsController extends AbstractController
 
         return $this->redirectToRoute('app_tips_index', [], Response::HTTP_SEE_OTHER);
     }
-}
+    }
