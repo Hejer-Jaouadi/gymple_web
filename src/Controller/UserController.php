@@ -559,7 +559,7 @@ class UserController extends AbstractController
                 $session = $request->getSession();
                 $session->set('user',$ok);
                 $session->set('id',$ok[0]->getId());
-                $random = random_int(1, 10);
+                $random = random_int(100000, 999999);
                 $ok[0]->setCode($random);
                 $ok[0]->sendCode($m);
                 $entityManager->flush();
@@ -591,7 +591,7 @@ class UserController extends AbstractController
 
                 $session->set('user',$ok);
                 $session->set('id',$ok[0]->getId());
-                $random = random_int(1, 10);
+                $random = random_int(100000, 999999);
                 $ok[0]->setCode($random);
                 $ok[0]->sendCode($m);
                 $entityManager->flush();

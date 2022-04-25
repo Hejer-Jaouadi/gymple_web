@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Captcha\Bundle\CaptchaBundle\Validator\Constraints as CaptchaAssert;
@@ -406,7 +407,7 @@ class User
     public function sendPassword(MailerInterface $mailer)
     {
         
-        $email = (new Email())
+        $email = (new TemplatedEmail())
             ->from('asma.hejaiej@esprit.tn')
             ->to('hejaiej.asma@gmail.com')
             //->cc('cc@example.com')
@@ -414,7 +415,11 @@ class User
             //->replyTo('fabien@example.com')
             //->priority(Email::PRIORITY_HIGH)
             ->subject("Password")
-            ->text('This is your password :'.$this->password);
+            ->htmlTemplate('user/emailtemplate.html.twig')
+            ->text('This is your password :'.$this->password)
+            ->context([
+                'Code' => $this->password
+            ]);
 
         $mailer->send($email);
 
@@ -425,7 +430,7 @@ class User
     public function sendCode(MailerInterface $mailer)
     {
         
-        $email = (new Email())
+        $email = (new TemplatedEmail())
             ->from('asma.hejaiej@esprit.tn')
             ->to('hejaiej.asma@gmail.com')
             //->cc('cc@example.com')
@@ -433,7 +438,11 @@ class User
             //->replyTo('fabien@example.com')
             //->priority(Email::PRIORITY_HIGH)
             ->subject("Code")
-            ->text('This is your code :'.$this->code);
+            ->htmlTemplate('user/codetemplate.html.twig')
+            ->text('This is your code :'.$this->code)
+            ->context([
+                'Code' => $this->code
+            ]);
 
         $mailer->send($email);
 
