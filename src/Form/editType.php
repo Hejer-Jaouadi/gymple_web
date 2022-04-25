@@ -2,17 +2,16 @@
 
 namespace App\Form;
 
-use App\Entity\User2;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType;
 
 
-class RegisterType extends AbstractType
+class editType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -33,10 +32,8 @@ class RegisterType extends AbstractType
                 'first_options'  => ['label' => 'Password'],
                 'second_options' => ['label' => 'Repeat Password'],
             ])
-            ->add('captchaCode', CaptchaType::class, array(
-                'captchaConfig' => 'ExampleCaptcha'
-              ))
-            ->add('Go!',SubmitType::class)
+            
+            ->add('Save',SubmitType::class)
 
            
         ;
@@ -45,7 +42,7 @@ class RegisterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User2::class,
+            'data_class' => User::class,
         ]);
     }
 }

@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="user_ibfk_1", columns={"membership"})}, indexes={@ORM\Index(name="gym", columns={"gym"})})
  * @ORM\Entity
  */
-class User
+class User2
 {
     /**
      * @var int
@@ -182,7 +182,23 @@ class User
      */
     private $gym;
    
-    public function getId(): ?int
+/**
+   * @CaptchaAssert\ValidCaptcha(
+   *      message = "CAPTCHA validation failed, try again."
+   * )
+   */
+  protected $captchaCode;
+
+  public function getCaptchaCode()
+  {
+    return $this->captchaCode;
+  }
+
+  public function setCaptchaCode($captchaCode)
+  {
+    $this->captchaCode = $captchaCode;
+  }
+  public function getId(): ?int
     {
         return $this->id;
     }
@@ -443,3 +459,4 @@ class User
 
 
 }
+

@@ -97,4 +97,71 @@ class UserRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function SortByEmail()
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c')
+            ->orderBy('c.email', 'ASC')
+            ->getQuery() 
+            ->getResult()
+           ;
+    }
+
+    public function SortByRole()
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c')
+            ->orderBy('c.role', 'ASC')
+            ->getQuery()
+            ->getResult() 
+            ;
+    }
+
+    public function lastfind($value)
+    {
+        return $this->createQueryBuilder('g')
+            ->andWhere('g.lastName LIKE :val')
+            ->setParameter('val', '%'.$value.'%')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function emailfind($value)
+    {
+        return $this->createQueryBuilder('g')
+            ->andWhere('g.email LIKE :val')
+            ->setParameter('val', '%'.$value.'%')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function getAll()
+    {
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->select('c')
+            ->orderBy('c.id');
+            
+        $limit = 1000;
+        $offset = 0;
+            
+        while (true) {
+            $queryBuilder->setFirstResult($offset);
+            $queryBuilder->setMaxResults($limit);
+            
+            $customers = $queryBuilder->getQuery()->getResult();
+            
+            if (count($customers) === 0) {
+                break;
+            }
+            
+            foreach ($customers as $customer) {
+                yield $customer;
+                $this->_em->detach($customer);
+            }
+            
+            $offset += $limit;
+        }
+    }
 }

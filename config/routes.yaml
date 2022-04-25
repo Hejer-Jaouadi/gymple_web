@@ -42,7 +42,15 @@ emailFront:
    controller: App\Controller\UserController::loginemailFront       
 editMember:
    path: /{id}/editMyAccount
-   controller: App\Controller\UserController::editMember      
+   controller: App\Controller\UserController::editMember   
+ex:
+   path: /excel
+   controller: App\Controller\UserController::excel 
+pay:
+   path: /payment
+   controller: App\Controller\UserController::pay  
+captcha_routing:
+  resource: "@CaptchaBundle/Resources/config/routing.yml"           
   
 
 

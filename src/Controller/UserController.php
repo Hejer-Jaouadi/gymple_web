@@ -3,13 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\User2;
 use App\Form\UserType;
 use App\Form\CodeType;
+use App\Form\editType;
 use App\Form\RegisterType;
 use App\Form\AdminType;
 use App\Form\EmailType;
 use App\Form\Login;
-use App\Form\User2;
+use App\Form\User3;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Form\TrainerType;
 use Symfony\Component\Mailer\MailerInterface;
@@ -32,10 +37,50 @@ class UserController extends AbstractController
 {
     
     /**
-     * @Route("/", name="app_user_index", methods={"GET"})
+     * @Route("/", name="app_user_index", methods={"GET", "POST"})
      */
-    public function index(EntityManagerInterface $entityManager,SessionInterface $session,PaginatorInterface $paginator,Request $request): Response
+    public function index(UserRepository $rep,EntityManagerInterface $entityManager,SessionInterface $session,PaginatorInterface $paginator,Request $request): Response
     {
+        if ( $request->isMethod('POST')) {
+
+            if ( $request->request->get('optionsRadios')){
+                $SortKey = $request->request->get('optionsRadios');
+                switch ($SortKey){
+                    case 'role':
+                        $users = $rep->SortByRole();
+                        break;
+
+                    case 'email':
+                        $users= $rep->SortByEmail();
+                        break;
+
+
+                }
+            }
+            else{
+                $type = $request->request->get('optionsearch');
+                $value = $request->request->get('Search');
+                switch ($type){
+                    case 'last':
+                        $users = $rep->lastfind($value);
+                        break;
+
+                    case 'email':
+                        $users = $rep->emailfind($value);
+                        break;
+            }
+            $userspagination = $paginator->paginate(
+                $users, // on passe les donnees
+                $request->query->getInt('page', 1),// Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                5
+            );
+
+        return $this->render('user/index.html.twig', [
+            'users' => $userspagination,
+        ]);
+        }
+        
+    }    
         $user=$session->get('user');
         $users = $entityManager
             ->getRepository(User::class)
@@ -50,17 +95,45 @@ class UserController extends AbstractController
             'users' => $userspagination,
         ]);
     }
-   
 
+    /**
+     * @Route("/excel", name="app_user_excel", methods={"GET"})
+     */
+    public function excel(Request $request,UserRepository $rep,EntityManagerInterface $entityManager):Response
+    {
+        $spreadsheet = new Spreadsheet();
+        $users= $rep
+        ->getAll();
+        /* @var $sheet \PhpOffice\PhpSpreadsheet\Writer\Xlsx\Worksheet */
+        $sheet = $spreadsheet->getActiveSheet();
+        $i = 2;
+        foreach ($users as $user){
+            $sheet->setCellValue('A'.$i, $user->getRole());
+            $sheet->setCellValue('B'.$i, $user->getFirstName());
+            $sheet->setCellValue('C'.$i, $user->getLastName());
+            $sheet->setCellValue('D'.$i, $user->getEmail());
+            $i++;
+        }
+        $sheet->setTitle("Users Data")->setCellValue('A1', 'Role')
+        ->setCellValue('B1', 'First Name')
+        ->setCellValue('C1', 'Last Name')
+        ->setCellValue('D1', 'Email');
         
-
         
-
-   /* public function start_session(){
-        $session = new Session(new NativeSessionStorage());
-        $session->start();
-        $session->set('user', $admin);
-    }*/
+        // Create your Office 2007 Excel (XLSX Format)
+        $writer = new Xlsx($spreadsheet);
+        
+        // In this case, we want to write the file in the public directory
+        $publicDirectory=$this->getParameter('kernel.project_dir') . '/public';
+        // e.g /var/www/project/public/my_first_excel_symfony4.xlsx
+        $excelFilepath =  $publicDirectory . '/excel_symfony4.xlsx';
+        
+        // Create the file
+        $writer->save($excelFilepath);
+        
+        // Return a text response to the browser saying that the excel was succesfully created
+        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+    }
 
     public function randomPassword() {
         $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
@@ -151,7 +224,7 @@ class UserController extends AbstractController
 
     public function register6(Request $request, EntityManagerInterface $entityManager,MailerInterface $m): Response
     {
-        $user = new User();
+        $user = new User2();
         $form = $this->createForm(RegisterType::class, $user);
         $form->handleRequest($request);
         $mem= new Membership();
@@ -173,7 +246,13 @@ class UserController extends AbstractController
             $entityManager->flush();
             $session = $request->getSession();
             $session->set('user',$user);
-            return $this->redirectToRoute('homeMember', [], Response::HTTP_SEE_OTHER);
+            $session->set('id',$user->getId());
+            $date = $user->getMembership()->getExpireDate();
+                $now = new \DateTime();
+                $diff = date_diff($now, $date); 
+                $stringdiff = $diff->format('%d days'); 
+                $session->set('ok',$stringdiff); 
+            return $this->redirectToRoute('pay', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/register.html.twig', [
@@ -184,7 +263,7 @@ class UserController extends AbstractController
 
     public function register1(Request $request, EntityManagerInterface $entityManager,MailerInterface $m): Response
     {
-        $user = new User();
+        $user = new User2();
         $form = $this->createForm(RegisterType::class, $user);
         $form->handleRequest($request);
         $mem= new Membership();
@@ -206,7 +285,13 @@ class UserController extends AbstractController
             $entityManager->flush();
             $session = $request->getSession();
             $session->set('user',$user);
-            return $this->redirectToRoute('homeMember', [], Response::HTTP_SEE_OTHER);
+            $session->set('id',$user->getId());
+            $date = $user->getMembership()->getExpireDate();
+                $now = new \DateTime();
+                $diff = date_diff($now, $date); 
+                $stringdiff = $diff->format('%d days'); 
+                $session->set('ok',$stringdiff); 
+            return $this->redirectToRoute('pay', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/register.html.twig', [
@@ -216,7 +301,7 @@ class UserController extends AbstractController
     }
     public function register3(Request $request, EntityManagerInterface $entityManager,MailerInterface $m): Response
     {
-        $user = new User();
+        $user = new User2();
         $form = $this->createForm(RegisterType::class, $user);
         $form->handleRequest($request);
         $mem= new Membership();
@@ -238,7 +323,14 @@ class UserController extends AbstractController
             $entityManager->flush();
             $session = $request->getSession();
             $session->set('user',$user);
-            return $this->redirectToRoute('homeMember', [], Response::HTTP_SEE_OTHER);
+            $session->set('id',$user->getId());
+            $date = $user->getMembership()->getExpireDate();
+                $now = new \DateTime();
+                $diff = date_diff($now, $date); 
+                $stringdiff = $diff->format('%d days'); 
+                $session->set('ok',$stringdiff); 
+
+            return $this->redirectToRoute('pay', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/register.html.twig', [
@@ -338,6 +430,22 @@ class UserController extends AbstractController
     return $this->render('user/homeMember.html.twig', [
         
     ]);
+    
+       
+    }
+
+     /**
+     * @Route("/pay", name="app_front_pay", methods={"GET", "POST"})
+     */
+    public function pay(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        
+     
+
+    return $this->render('user/payment.html.twig', [
+        
+    ]);
+    
        
     }
 
@@ -383,6 +491,16 @@ class UserController extends AbstractController
                 $session = $request->getSession();
                 $session->set('user',$ok);
                 $session->set('id',$ok[0]->getId());
+            
+                $date = $ok[0]->getMembership()->getExpireDate();
+                $now = new \DateTime();
+                $diff = date_diff($now, $date); 
+                $stringdiff = $diff->format('%d days'); 
+                $session->set('ok',$stringdiff);             
+                 $this->addFlash(
+                    'notice',
+                    'Your have '.$stringdiff.' days left on your membership'
+                );
             return $this->redirectToRoute('homeMember', [], Response::HTTP_SEE_OTHER);}
  
         }
@@ -504,7 +622,7 @@ class UserController extends AbstractController
      */
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(User2::class, $user);
+        $form = $this->createForm(User3::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -525,7 +643,7 @@ class UserController extends AbstractController
      */
     public function editMember(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(RegisterType::class, $user);
+        $form = $this->createForm(editType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -632,4 +750,5 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
+    
 }
