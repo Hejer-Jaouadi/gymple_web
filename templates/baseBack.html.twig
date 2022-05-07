@@ -65,7 +65,7 @@
                             <div class="preview-item-content">
                                 <p class="preview-subject ellipsis mb-1 text-small">Account settings</p>
                                 <a class="nav-link" href="{{ path('app_user_editAcc', {'id': app.session.get('id')}) }}">
-
+                                </a>
                             </div>
                         </a>
                         <div class="dropdown-divider"></div>
@@ -116,7 +116,6 @@
                         </a>
                     </li>
                 {% endif %}
-
 
             {% if path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) == '/gym/' %}
                 <li class="nav-item menu-items active">
@@ -337,7 +336,7 @@
                                         <i class="mdi mdi-settings text-success"></i>
                                     </div>
                                 <a class="nav-link" href="{{ path('app_user_editAcc', {'id': app.session.get('id')}) }}">
-
+                                </a>
                                 </div>
                                 <div class="preview-item-content">
                                     <p class="preview-subject mb-1" >Account Settings</p>
@@ -363,7 +362,7 @@
                                 <div class="preview-thumbnail">
                                     <div class="preview-icon bg-dark rounded-circle">
                                         <i class="mdi mdi-logout text-danger"></i>
-                                        <a class="nav-link" href="{{ path('loggi')}}">
+                                        <a class="nav-link" href="{{ path('loggi')}}"> </a>
                                     </div>
                                 </div>
                                 <div class="preview-item-content">

@@ -39,7 +39,7 @@ class Room
      * @Assert\NotBlank
      */
     private $max_nbr;
-    
+
 
     /**
      * @ORM\ManyToOne(targetEntity=Gym::class, inversedBy="rooms")
