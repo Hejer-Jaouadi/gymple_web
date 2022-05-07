@@ -7,7 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 /**
+ *
+ * Room
  * @ORM\Entity(repositoryClass=RoomRepository::class)
+ *   @ORM\Table(name="room", indexes={@ORM\Index(name="idgym", columns={"idgym"})})
+ * @ORM\Entity
  */
 class Room
 {
@@ -35,10 +39,11 @@ class Room
      * @Assert\NotBlank
      */
     private $max_nbr;
+    
 
     /**
      * @ORM\ManyToOne(targetEntity=Gym::class, inversedBy="rooms")
-     * @ORM\JoinColumn(nullable=false,name="idgym", referencedColumnName="idg")
+     * @ORM\JoinColumn(nullable=false,name="idgym", referencedColumnName="idG")
      */
     private $idgym;
 

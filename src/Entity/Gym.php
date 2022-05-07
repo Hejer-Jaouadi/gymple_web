@@ -43,6 +43,11 @@ class Gym
      */
     private $facilities;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Room::class, mappedBy="idgym", orphanRemoval=true)
+     */
+    private $rooms;
+
     public function getIdg(): ?int
     {
         return $this->idg;
