@@ -19,7 +19,7 @@
                             <li><a class="nav-link" href="{{ path('homeMember') }}">Home</a></li>
                             <li><a href="#">About Us</a></li>
                             <li><a href="#">Classes</a></li>
-                            <li><a href="#">GYMS</a></li>
+                            <li><a class="nav-link" href="{{ path('gymfront') }}">GYMS</a></li>
                             <li class="active"><a href="#">Our Team</a></li>
                             <li><a  href="{{ path('editMember', {'id': app.session.get('id')}) }}">My Account</a></li>
                         </ul>

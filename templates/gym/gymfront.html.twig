@@ -1,0 +1,121 @@
+{% extends 'baseFrontGym.html.twig' %}
+
+
+{% block body %}
+
+
+
+    <section class="services-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <span>Want to find more about our gym ? </span>
+                        <h2>Below you'll find sub-Gyms available :</h2>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="navbar-nav w-100">
+                <li class="nav-item w-100">
+                    <form name="Search-method" id="Search-method" method="post" class="forms-sample" style="display: flex ">
+                        <div class="form-group col-md-3">
+                            <select name="optionsearch" class="js-example-basic-single" style="width: 200px;height: 38px; color: white; background-color: #191c24; border-radius: 4px;text-align: center;border: 2px solid #e76000;margin-right: 15px;">
+                                <option value="location">Location</option>
+                                <option value="facilities">Facilities</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-9">
+                            <div class="input-group">
+                                <input name="Search" type="text" class="form-control" placeholder="Search Gyms" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-sm btn-primary" style="margin-right: 25px;border-right: 2px " type="Submit">Search</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </li>
+            </ul>
+            <div class="row">
+
+
+                    {% for gym in gyms %}
+                        <div class="col-lg-6 order-lg-2 col-md-9 p-10">
+                            <div class="ss-text" style="round: #252525; padding: 20px 70px; background-color: rgb(243,97,0)">
+
+                                    <h2 style="color: #000000" ><i class="fa fa-map-marker" ></i> {{ gym.location }} </h2>
+                                    <span style="color: white">{{ gym.facilities }}</span>
+                                <h2 style="color: #000000">----------------------------</h2>
+
+
+                                <h2> <span class="flaticon-002-dumbell"></span> And these different rooms </h2>
+                                <ul style="color: white ">
+                                    {% for room in rooms %}
+                                        {% if room.idgym.idg == gym.idg %}
+                                            <li>{{ room.roomname }}</li>
+
+                                        {% endif %}
+
+                                    {% endfor %}
+                                </ul>
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?data={{gym.location}},{{ gym.facilities }}&amp;size=50x50" alt="" title="Gym information is as follows :" style="margin-left: 390px"/>
+
+                           <!--     <iframe
+                                        width="450"
+                                        height="250"
+                                        frameborder="0" style="border:0"
+                                        referrerpolicy="no-referrer-when-downgrade"
+                                        src="https://www.google.com/maps/embed/v1/place
+                                              ?key=AIzaSyBH5SwI3-vnc_Td97ezoJKhTGQ8kDceBC0
+                                                &q="
+                                        allowfullscreen>
+                                </iframe>-->
+
+
+                            </div>
+                        </div>
+                    {% else %}
+                        <div style="display: grid;">
+                            <label style="width: 122%;margin: auto;margin-bottom: 13px;margin-top: 30px;margin-left: 250px;border: 2px solid #0090e7;padding: 10px;border-radius: 20px;border-left: 2px solid #f30092;border-right: 2px solid rgb(243,0,146);text-align: center; font-style: oblique;color: #f36100;"> NO GYMS FOUND WITH SUCH CRITERIA</label>
+                        </div>
+                    {%  endfor %}
+
+
+
+           </div>
+
+
+
+            <div class="blog-pagination">
+                {{ knp_pagination_render(gyms) }}
+            </div>
+        </div>
+
+    </section>
+
+
+    <section class="contact-section spad">
+        <div class="container">
+
+            <div class="map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d102197.76422652378!2d10.144167923528828!3d36.826184170437124!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12e2cb7454c6ed51%3A0x683b3ab5565cd357!2sEsprit%20Pr%C3%A9pa!5e0!3m2!1sfr!2stn!4v1650705179599!5m2!1sfr!2stn" height="550" style="border:0;" allowfullscreen=""></iframe>
+            </div>
+        </div>
+    </section>
+    <section class="banner-section set-bg" data-setbg={{ asset('Front/img/banner-bg.jpg')}} style="background-image: url(&quot;img/banner-bg.jpg&quot;);">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="bs-text service-banner">
+                        <h2>Exercise until the body obeys.</h2>
+                        <div class="bt-tips">Where health, beauty and fitness meet.</div>
+                        <a href="https://www.youtube.com/watch?v=4-zjQvTDnbw" class="play-btn video-popup"><i class="fa fa-caret-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}

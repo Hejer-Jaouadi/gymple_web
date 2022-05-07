@@ -2,53 +2,43 @@
 
 namespace App\Entity;
 
+use App\Repository\RoomRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
- * Room
- *
- * @ORM\Table(name="room", indexes={@ORM\Index(name="idgym", columns={"idgym"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=RoomRepository::class)
  */
 class Room
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="idR", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
     private $idr;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="roomName", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $roomname;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="roomNumber", type="integer", nullable=false)
+     * @ORM\Column(type="integer")
+     * @Assert\NotBlank
      */
     private $roomnumber;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="max_nbr", type="integer", nullable=false)
+     * @ORM\Column(type="integer")
+     * @Assert\NotBlank
      */
-    private $maxNbr;
+    private $max_nbr;
 
     /**
-     * @var \Gym
-     *
-     * @ORM\ManyToOne(targetEntity="Gym")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idgym", referencedColumnName="idG")
-     * })
+     * @ORM\ManyToOne(targetEntity=Gym::class, inversedBy="rooms")
+     * @ORM\JoinColumn(nullable=false,name="idgym", referencedColumnName="idg")
      */
     private $idgym;
 
@@ -83,12 +73,12 @@ class Room
 
     public function getMaxNbr(): ?int
     {
-        return $this->maxNbr;
+        return $this->max_nbr;
     }
 
-    public function setMaxNbr(int $maxNbr): self
+    public function setMaxNbr(int $max_nbr): self
     {
-        $this->maxNbr = $maxNbr;
+        $this->max_nbr = $max_nbr;
 
         return $this;
     }
@@ -104,6 +94,4 @@ class Room
 
         return $this;
     }
-
-
 }
