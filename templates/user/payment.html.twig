@@ -1,0 +1,86 @@
+{% extends 'baseFront.html.twig' %}
+
+
+{% block body %}
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="Front/img/breadcrumb-bg.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb-text">
+                        <h2>Gymple Payment</h2>
+                        <div class="bt-option">
+                            <a href="./index.html">Home</a>
+                            <a href="#">Pages</a>
+                            <span>Gymple Register</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+
+    <!-- BMI Calculator Section Begin -->
+    <section class="bmi-calculator-section spad">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-6">
+                    <div class="section-title chart-calculate-title">
+                        <span>check your body</span>
+                        <h2>Sign Into Gymple</h2>
+                    </div>
+                    <div class="chart-calculate-form">
+                        <p>Sign In To Start Your Gymple Journey.</p>
+                           <div class="card-body">
+    
+    
+      <div class="form-group">
+          <div class="row">
+          <div class="col-md-6">
+              <label for="numc">Card Number </label>
+              <input id="numc" class="form-control" type="text" name="numc" placeholder="Entrer le numéro" required >
+            </div>
+            <div class="col-md-6">
+              <label for="code">Code </label>
+              <input id="code" class="form-control" type="password" name="code" placeholder="*****" required >
+            </div>
+          </div>
+      </div>
+      
+      <div class="form-group">
+        <label> Type de carte </label>
+        <div class="form-row" >
+            <div class="custom-control custom-control-inline custom-radio">
+          <input type="radio" class="custom-control-input" id="radio1" name="genre"checked value="e-dinar">
+          <label class="custom-control-label" for="radio1" >E-dinar</label> 
+              </div>
+            <div class="custom-control custom-control-inline custom-radio">    
+          <input type="radio" class="custom-control-input" id="radio2" name="genre" value="paypal">
+          <label class="custom-control-label" for="radio2">Paypal</label>   
+              </div>
+               <div class="custom-control custom-control-inline custom-radio">    
+          <input type="radio" class="custom-control-input" id="radio55" name="genre" value="paypal">
+          <label class="custom-control-label" for="radio2">MasterCard</label>   
+              </div>
+              <div class="custom-control custom-control-inline custom-radio">    
+          <input type="radio" class="custom-control-input" id="radio222" name="genre" value="paypal">
+          <label class="custom-control-label" for="radio2">Visa</label>   
+              </div>
+            </div>
+      </div>  
+      </div>
+      
+
+<a " href="{{ path('homeMember')}}">Validate Payment</a>    </form>
+  </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- BMI Calculator Section End -->
+{% endblock %}

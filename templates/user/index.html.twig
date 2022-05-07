@@ -1,0 +1,208 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block stylesheets %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>GYMPLE</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{{ asset('Back/assets/vendors/mdi/css/materialdesignicons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('Back/assets/vendors/css/vendor.bundle.base.css') }}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{{ asset('Back/assets/vendors/jvectormap/jquery-jvectormap.css') }}">
+    <link rel="stylesheet" href="{{ asset('Back/assets/vendors/flag-icon-css/css/flag-icon.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('Back/assets/vendors/owl-carousel-2/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('Back/assets/vendors/owl-carousel-2/owl.theme.default.min.css') }}">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{{ asset('Back/assets/css/style.css') }}">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="{{ asset('Back/assets/images/favicon.png') }}" />
+
+    <style>
+
+        .pagination{
+            justify-content: center;
+            padding-top: 20px;
+            border-top: 2px dotted #3c3a3e;
+            margin-top: 11px;
+        }
+        .current{
+            margin: 0px 5px 0px 5px;
+            border-radius: 50%;
+            width: 2%;
+            text-align: center;
+            border: solid #3c3c3c;
+        }
+
+        .page{
+            margin: 0px 5px 0px 5px;
+            border-radius: 50%;
+            width: 2%;
+            text-align: center;
+            border: solid #3c3c3c;
+        }
+
+        .page a{
+            color: white;
+        }
+
+        .previous a{
+            color: white;
+            margin-left: 5px;
+            border-bottom: 1px solid #00d25b;
+        }
+        .next a{
+            color: white;
+            margin-right: 5px;
+            border-bottom: 1px solid #00d25b;
+        }
+
+        .first a{
+            color: #00d25b;
+            margin-left: 5px;
+            border-bottom: 1px solid #00d25b;
+        }
+        .last a{
+            color: #00d25b;
+            border-bottom: 1px solid #00d25b;
+        }
+    </style>
+
+    <style>
+        .form-check .form-check-label input[type="radio"] + .input-helper:before {
+            border: solid #00d25b;
+
+        }
+
+        .form-check .form-check-label input[type="radio"]:checked + .input-helper:before {
+            background-color: #00d25b;
+        }
+
+        .table thead th, .jsgrid .jsgrid-table thead th {
+            color: #6e7178;
+        }
+
+        .table, .jsgrid .jsgrid-table {
+            color: #ffffff;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="page-header">
+                <h3 class="page-title">ADMIN INTERFACE </h3>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="display: flex">
+                                <div class="col-md-6">
+                                    <h4 class="card-title">Users</h4>
+                                </div>
+                                <form method="post" class="forms-sample" style="margin-left: 68px;border-right: 2px solid #666a74;" >
+                                <button type="Submit" class="btn btn-success btn-fw">Sort</button>
+                                    <div class="form-group col-md-4" style="display: flex; width: 100%!important; margin: 0px!important;">
+
+                                        <div class="form-check">
+                                            <label class="form-check-label" style="width: 68px;margin-left: -2px;margin-right: 10px;color: white;">
+                                                <input style="border: solid #00d25b;" type="radio" class="form-check-input" name="optionsRadios" id="role2" value="role"> Role </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label" style="width: 78px;margin-left: -2px;margin-right: 10px;color: white;">
+                                                <input type="radio" class="form-check-input" name="optionsRadios" id="email2" value="email" > Email </label>
+                                        </div>
+                                        
+                                        <a class="btn btn-outline-success btn-fw" href="{{ path('ex') }}">Excel</a>
+                                        
+                                    </div>
+                                    
+                                </form>
+                                
+                                <a style="margin-top: 3px;" href="{{ path('app_user_new') }}"><i style="    margin-left: 6px;border: 2px solid #ff6600;border-radius: 50%;zoom: 1.6;padding: 4px;color: #ff6600;padding-bottom: 1px;"class="mdi mdi-note-plus"></i></a>
+
+
+                            </div>
+                            <p class="card-description">only someone with administrative priviliges has access to this page</code>
+                            </p>
+                            <ul class="navbar-nav w-100">
+                                <li class="nav-item w-100">
+                                    <form name="Search-method" id="Search-method" method="post" class="forms-sample" style="display: flex">
+                                        <div class="form-group col-md-3">
+                                            <label style="margin-top: 11px;margin-left: 10px;margin-right: 14px;border-bottom: 6px solid #0090e7;padding-bottom: 7px;border-bottom-style: dotted;">Search Options</label>
+                                            <select name="optionsearch" class="js-example-basic-single" style="width: 200px;height: 38px; color: white; background-color: #191c24; border-radius: 4px;text-align: center;border: 2px solid #0090e7;margin-right: 15px;">
+                                                <option value="last">Last Name</option>
+                                                <option value="email">Email</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-9">
+                                            <div class="input-group">
+                                                <input name="Search" type="text" class="form-control" placeholder="Search Users" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-sm btn-primary" type="Submit">Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </li>
+                            </ul>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <th>Role</th>
+                                    <th>Email</th>
+                                    <th>Last Name</th>
+                                    <th>First Name</th>
+                                    <th>actions</th>
+                                    </thead>
+                                    <tbody>
+                                    {% for user in users %}
+                                        <tr>
+                                            <td>{{ user.role }}</td>
+                                            <td>
+                                                <label class="badge badge-info" style="background-color: #ff6600;">{{ user.email }}</label>
+                                            </td>
+                                            <td>{{ user.lastName }}</td>
+                                            <td>{{ user.firstName }}</td>
+
+                                            <td style="width: 30%;">
+                                                <a class="btn btn-outline-primary btn-fw" href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
+                                                <a class="btn btn-outline-warning btn-fw" href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+                                                {% if user.block == "y" %}
+                                                <a class="btn btn-outline-success btn-fw" href="{{ path('app_user_unblock', {'id': user.id}) }}">unblock</a>
+                                                {%else%}
+                                                <a class="btn btn-outline-danger btn-fw" href="{{ path('app_user_block', {'id': user.id}) }}">block</a>
+                                                {% endif %}
+                                                
+                                                {#<a class="btn btn-outline-danger btn-fw" href="{{ path('app_user_delete', {'id': user.id , '_token' : csrf_token('delete' ~ user.id) }) }}">delete</a>#}
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <div style="display: grid;">
+                                            <label style="width: 22%;margin: auto;margin-bottom: 13px;margin-top: 10px;border: 2px solid #0090e7;padding: 10px;border-radius: 20px;border-left: 2px solid red;border-right: 2px solid red;text-align: center; font-style: oblique;color: chartreuse;"> NO USERS FOUND WITH SUCH CRITERIA</label>
+                                        </div>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            {{knp_pagination_render(users)}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+

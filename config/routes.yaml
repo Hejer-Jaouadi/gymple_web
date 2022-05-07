@@ -1,0 +1,58 @@
+index:
+   path: /newtrainer
+   controller: App\Controller\UserController::new_trainer
+loggi:
+   path: /login
+   controller: App\Controller\UserController::login
+loginFront:
+   path: /loginUser
+   controller: App\Controller\UserController::loginFront   
+team:
+   path: /team
+   controller: App\Controller\UserController::showFront
+home:
+   path: /home
+   controller: App\Controller\UserController::homeFront
+register3:
+   path: /register3months
+   controller: App\Controller\UserController::register3    
+register6:
+   path: /register6months
+   controller: App\Controller\UserController::register6
+register1:
+   path: /register1year
+   controller: App\Controller\UserController::register1   
+homeMember:
+   path: /gymple
+   controller: App\Controller\UserController::homeMember
+homeAdmin:
+   path: /user
+   controller: App\Controller\UserController::index  
+code:
+   path: /password
+   controller: App\Controller\UserController::code 
+codeFront:
+   path: /passwordFront
+   controller: App\Controller\UserController::codeFront     
+email:
+   path: /loginpass
+   controller: App\Controller\UserController::loginemail
+emailFront:
+   path: /loginmail
+   controller: App\Controller\UserController::loginemailFront       
+editMember:
+   path: /{id}/editMyAccount
+   controller: App\Controller\UserController::editMember   
+ex:
+   path: /excel
+   controller: App\Controller\UserController::excel 
+pay:
+   path: /payment
+   controller: App\Controller\UserController::pay  
+captcha_routing:
+  resource: "@CaptchaBundle/Resources/config/routing.yml"           
+  
+
+
+
+
