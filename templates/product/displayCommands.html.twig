@@ -1,0 +1,167 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %} index{% endblock %}
+{% block stylesheets %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>GYMPLE</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{{ asset('assets/vendors/mdi/css/materialdesignicons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/css/vendor.bundle.base.css') }}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{{ asset('assets/vendors/jvectormap/jquery-jvectormap.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/flag-icon-css/css/flag-icon.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/owl-carousel-2/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/owl-carousel-2/owl.theme.default.min.css') }}">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
+
+    <style>
+
+        .pagination{
+            justify-content: center;
+            padding-top: 20px;
+            border-top: 2px dotted #3c3a3e;
+            margin-top: 11px;
+        }
+        .current{
+            margin: 0px 5px 0px 5px;
+            border-radius: 50%;
+            width: 2%;
+            text-align: center;
+            border: solid #3c3c3c;
+        }
+
+        .page{
+            margin: 0px 5px 0px 5px;
+            border-radius: 50%;
+            width: 2%;
+            text-align: center;
+            border: solid #3c3c3c;
+        }
+
+        .page a{
+            color: white;
+        }
+
+        .previous a{
+            color: white;
+            margin-left: 5px;
+            border-bottom: 1px solid #00d25b;
+        }
+        .next a{
+            color: white;
+            margin-right: 5px;
+            border-bottom: 1px solid #00d25b;
+        }
+
+        .first a{
+            color: #00d25b;
+            margin-left: 5px;
+            border-bottom: 1px solid #00d25b;
+        }
+        .last a{
+            color: #00d25b;
+            border-bottom: 1px solid #00d25b;
+        }
+    </style>
+
+    <style>
+        .form-check .form-check-label input[type="radio"] + .input-helper:before {
+            border: solid #00d25b;
+
+        }
+
+        .form-check .form-check-label input[type="radio"]:checked + .input-helper:before {
+            background-color: #00d25b;
+        }
+
+        .table thead th, .jsgrid .jsgrid-table thead th {
+            color: #6e7178;
+        }
+
+        .table, .jsgrid .jsgrid-table {
+            color: #ffffff;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="page-header">
+                <h3 class="page-title">ADMIN INTERFACE </h3>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="display: flex">
+                                <div class="col-md-8">
+                                    <h4 class="card-title">Products</h4>
+                                </div>
+
+                            </div>
+                            <p class="card-description">only someone with administrative priviliges has access to this page</code>
+                            </p>
+                            <ul class="navbar-nav w-100">
+                                <li class="nav-item w-100">
+
+                                </li>
+                            </ul>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Product Id</th>
+                                        <th>Name</th>
+                                        <th>Quantity</th>
+                                        <th>Description</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for c in commands  %}
+                                        <tr>
+                                            <td>{{ c.Id }}</td>
+                                            <td>{{ c.name }}</td>
+                                            <td>
+                                                <label class="badge badge-info" style="background-color: #ff6600;">{{ c.quantity }}</label>
+                                            </td>
+                                            <td>{{ c.description }}</td>
+                                            <td>{{ c.category }}</td>
+                                            <td>{{ c.price }}</td>
+
+
+                                        </tr>
+
+                                    {% endfor %}
+
+
+                                    </tbody>
+
+                                </table>
+
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
