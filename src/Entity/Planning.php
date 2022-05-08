@@ -2,89 +2,87 @@
 
 namespace App\Entity;
 
+use App\Repository\PlanningRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Planning
- *
- * @ORM\Table(name="planning", indexes={@ORM\Index(name="gym", columns={"gym"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=PlanningRepository::class)
  */
 class Planning
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="start_date", type="integer", nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
-    private $startDate;
+    private $address;
 
     /**
-     * @var int|null
-     *
-     * @ORM\Column(name="end_date", type="integer", nullable=true, options={"default"="NULL"})
+     * @ORM\OneToMany(targetEntity=courses::class, mappedBy="address", orphanRemoval=true)
      */
-    private $endDate = NULL;
+    private $courses;
 
-    /**
-     * @var \Gym
-     *
-     * @ORM\ManyToOne(targetEntity="Gym")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="gym", referencedColumnName="idG")
-     * })
-     */
-    private $gym;
+    public function __construct()
+    {
+        $this->courses = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getStartDate(): ?int
+    public function getAddress(): ?string
     {
-        return $this->startDate;
+        return $this->address;
     }
 
-    public function setStartDate(int $startDate): self
+    public function setAddress(string $address): self
     {
-        $this->startDate = $startDate;
+        $this->address = $address;
 
         return $this;
     }
 
-    public function getEndDate(): ?int
+    /**
+     * @return Collection<int, courses>
+     */
+    public function getCourses(): Collection
     {
-        return $this->endDate;
+        return $this->courses;
     }
 
-    public function setEndDate(?int $endDate): self
+    public function addCourse(courses $course): self
     {
-        $this->endDate = $endDate;
+        if (!$this->courses->contains($course)) {
+            $this->courses[] = $course;
+            $course->setAddress($this);
+        }
 
         return $this;
     }
 
-    public function getGym(): ?Gym
+    public function removeCourse(courses $course): self
     {
-        return $this->gym;
-    }
-
-    public function setGym(?Gym $gym): self
-    {
-        $this->gym = $gym;
+        if ($this->courses->removeElement($course)) {
+            // set the owning side to null (unless already changed)
+            if ($course->getAddress() === $this) {
+                $course->setAddress(null);
+            }
+        }
 
         return $this;
     }
-
+    public function __toString()
+    {
+        return $this->address;
+    }
 
 }
