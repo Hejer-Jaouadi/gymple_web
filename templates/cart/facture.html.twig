@@ -16,8 +16,9 @@
                 <td bgcolor="#FFFFFF" style="border: 1px solid #000; clear: both; display: block; margin: 0 auto; max-width: 600px; padding: 0;">
                     <table width="100%" style="background: #f9f9f9; border-bottom: 1px solid #eee; border-collapse: collapse; color: #999;">
                         <tbody>
+                        {% for c in commands|slice(0,1) %}
                         <tr>
-                            <td width="50%" style="padding: 20px;"><strong style="color: #333; font-size: 24px;">$100</strong> Paid</td>
+                            <td width="50%" style="padding: 20px;"><strong style="color: #333; font-size: 24px;">{{ c.price }}</strong> Paid</td>
                             <td align="right" width="50%" style="padding: 20px;">Thanks for using <span class="il">Gymple.com</span></td>
                         </tr>
                         </tbody>
@@ -49,17 +50,19 @@
                                 </h3>
                                 <table cellspacing="0" style="border-collapse: collapse; margin-bottom: 40px;">
                                     <tbody>
-                                    {% for c in commands %}
+
                                     <tr>
                                         <td style="padding: 5px 0;">{{ c.name }}</td>
-                                        <td align="right" style="padding: 5px 0;">${{ c.price }}</td>
+                                        <td align="right" style="padding: 5px 0;">${{ c.price}}</td>
                                     </tr>
-                                    {% endfor %}
+
                                     <tr>
                                         <td style="border-bottom: 2px solid #000; border-top: 2px solid #000; font-weight: bold; padding: 5px 0;">Amount paid</td>
                                         <td align="right" style="border-bottom: 2px solid #000; border-top: 2px solid #000; font-weight: bold; padding: 5px 0;">
-                                            $100</td>
+                                            {{ c.price }}</td>
                                     </tr>
+                                    {% endfor %}
+
                                     </tbody>
 
                                 </table>

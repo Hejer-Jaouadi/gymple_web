@@ -11,16 +11,19 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
+
 class ProductController extends AbstractController
 {
     /* partie front */
 
     /**
-     * @Route("/gymfront", name="app_gym_front", methods={"GET"})
+     * @Route("/productsfront", name="app_gym_front", methods={"GET"})
      */
-    public function gymFront(): Response
+    public function productsfront(): Response
     {
+
         $product = $this->getDoctrine()->getManager()->getRepository(Products::class)->findAll();
+
         return $this->render('ProductFront/ProductFront.html.twig', [
             'p'=>$product
         ]);

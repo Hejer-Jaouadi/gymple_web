@@ -9,7 +9,7 @@
 
             <thead>
             <a class="primary-btn pricing-btn" href="http://localhost:8000/gymfront">Keep Shopping</a>
-            <a class="primary-btn pricing-btn" href="{{ path('facture_index') }}">Generate Facture</a>
+
             <tr>
                 <th>Product</th>
                 <th>Category </th>
@@ -25,9 +25,8 @@
                     <td>{{ item.category }}</td>
                     <td>{{ item.description }}</td>
                     <td>{{ item.price  }}</td>
-                    <td>
-
-                    </td>
+                    <td></td>
+                    <td><a class="primary-btn pricing-btn" href="{{ path('facture_index') }}">Generate Facture</a></td>
                 </tr>
             {% endfor %}
             </tbody>
