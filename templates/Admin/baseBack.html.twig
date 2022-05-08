@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    {% block stylesheets %}
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>GYMPLE</title>
+        <!-- plugins:css -->
+        <link rel="stylesheet" href="{{ asset('Back/assets/vendors/mdi/css/materialdesignicons.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('Back/assets/vendors/css/vendor.bundle.base.css') }}">
+        <!-- endinject -->
+        <!-- Plugin css for this page -->
+        <link rel="stylesheet" href="{{ asset('Back/assets/vendors/jvectormap/jquery-jvectormap.css') }}">
+        <link rel="stylesheet" href="{{ asset('Back/assets/vendors/flag-icon-css/css/flag-icon.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('Back/assets/vendors/owl-carousel-2/owl.carousel.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('Back/assets/vendors/owl-carousel-2/owl.theme.default.min.css') }}">
+        <!-- End plugin css for this page -->
+        <!-- inject:css -->
+        <!-- endinject -->
+        <!-- Layout styles -->
+        <link rel="stylesheet" href="{{ asset('Back/assets/css/style.css') }}">
+        <!-- End layout styles -->
+        <link rel="shortcut icon" href="{{ asset('Back/assets/images/favicon.png') }}" />
+    {% endblock %}
+    <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
+    <script>
+        Weglot.initialize({
+            api_key: 'wg_eb1cb7681d201492c0c7577277bd84f00'
+        });
+    </script>
+</head>
+
+{% block javascripts %}
+
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="{{ asset('Back/assets/vendors/js/vendor.bundle.base.js') }}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="{{ asset('Back/assets/vendors/chart.js/Chart.min.js') }}"></script>
+    <script src="{{ asset('Back/assets/vendors/progressbar.js/progressbar.min.js') }}"></script>
+    <script src="{{ asset('Back/assets/vendors/jvectormap/jquery-jvectormap.min.js') }}"></script>
+    <script src="{{ asset('Back/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
+    <script src="{{ asset('Back/assets/vendors/owl-carousel-2/owl.carousel.min.js') }}"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="{{ asset('Back/assets/js/off-canvas.js') }}"></script>
+    <script src="{{ asset('Back/assets/js/hoverable-collapse.js') }}"></script>
+    <script src="{{ asset('Back/assets/js/misc.js') }}"></script>
+    <script src="{{ asset('Back/assets/js/settings.js') }}"></script>
+    <script src="{{ asset('Back/assets/js/todolist.js') }}"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="{{ asset('Back/assets/js/dashboard.js') }}"></script>
+    <!-- End custom js for this page -->
+
+{% endblock %}
+
+
+
+</html>
