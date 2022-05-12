@@ -71,7 +71,7 @@ class RoomController extends AbstractController
         $room = new Room();
 
         $em = $this->getDoctrine()->getManager();
-        $gym = $em->getRepository(Gym::class)->find($request->get('idg'));
+        $gym = $em->getRepository(Gym::class)->find($request->get('idgym'));
 
 
         $room->setRoomname($request->get('roomName'));
@@ -114,7 +114,7 @@ class RoomController extends AbstractController
 
 
 
-    
+
     /**
      * @Route("/", name="app_room_index", methods={"GET" , "POST"})
      */
