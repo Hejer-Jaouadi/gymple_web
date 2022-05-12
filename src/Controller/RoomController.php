@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Room;
+use App\Entity\Gym;
 use App\Form\RoomType;
 use App\Repository\GymRepository;
 use App\Repository\RoomRepository;
@@ -11,13 +12,109 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+
 /**
  * @Route("/room")
  */
 class RoomController extends AbstractController
 {
 
+    /**
+     * @Route("/api/AllRoom", name="api_AllRoom")
+     */
 
+    public function AllRooms(NormalizerInterface $Normalizer)
+    {
+        $repository = $this->getDoctrine()->getRepository(Room::class);
+        $room = $repository->findAll();
+        $jsonContent = $Normalizer->normalize($room, 'json', ['groups' => 'post:read']);
+
+        return new Response(json_encode($jsonContent));
+    }
+
+    /**
+     * @Route("/api/getRoomById/{id}", name="api_getRoom")
+     */
+
+    public function getRoomById(NormalizerInterface $Normalizer, $id)
+    {
+        $repository = $this->getDoctrine()->getRepository(Room::class);
+        $p = $repository->find($id);
+        $jsonContent = $Normalizer->normalize($p, 'json', ['groups' => 'post:read']);
+
+        return new Response(json_encode($jsonContent));
+    }
+
+
+    /**
+     * @Route("/api/deleteRoom/{id}", name="api_deleteRoom")
+     */
+
+    public function deleteroom(NormalizerInterface $Normalizer, $id)
+    {
+        $repository = $this->getDoctrine()->getRepository(Room::class);
+        $p = $repository->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($p);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($p, 'json', ['groups' => 'post:read']);
+
+        return new Response("Room deleted" . json_encode($jsonContent));
+    }
+
+    /**
+     * @Route("/api/createRoom", name="api_createRoom")
+     */
+    public function create(Request $request, NormalizerInterface $Normalizer)
+    {
+        $room = new Room();
+
+        $em = $this->getDoctrine()->getManager();
+        $gym = $em->getRepository(Gym::class)->find($request->get('idg'));
+
+
+        $room->setRoomname($request->get('roomName'));
+        $room->setRoomnumber($request->get('roomNumber'));
+        $room->setMaxNbr($request->get('maxNbr'));
+        $room->setIdgym($gym);
+
+
+
+        $em->persist($room);
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($room, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($jsonContent));
+    }
+
+
+    /**
+     * @Route("/api/updateRoom/{id}", name="api_updateRoom")
+     */
+    public function update(Request $request, NormalizerInterface $Normalizer, $id)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $room = $em->getRepository(Room::class)->find($id);
+
+        $room->setRoomname($request->get('roomName'));
+        $room->setRoomnumber($request->get('roomNumber'));
+        $room->setMaxNbr($request->get('maxNbr'));
+
+
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($room, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($jsonContent));
+    }
+
+
+
+
+
+
+    
     /**
      * @Route("/", name="app_room_index", methods={"GET" , "POST"})
      */

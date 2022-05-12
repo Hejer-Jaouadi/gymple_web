@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 // Include Dompdf required namespaces
 use Dompdf\Dompdf;
 use Dompdf\Options;
+
 /**
  * @ORM\Entity(repositoryClass=GymRepository::class)
  */
@@ -20,6 +21,7 @@ class Gym
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+
      */
     private $idg;
 
@@ -27,12 +29,16 @@ class Gym
      * @Assert\NotBlank
      * @Assert\Regex("/\d/" , match = true,  message="location must contain a street number")
      * @ORM\Column(type="string", length=255)
+     * @Groups("read:gyms")
+     * @Groups("post:read")
      */
     private $location;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Regex("/\d/" , match = false,  message="facilites must not contain a number")
+     * @Groups("read:gyms")
+     * @Groups("post:read")
      */
     private $facilities;
 

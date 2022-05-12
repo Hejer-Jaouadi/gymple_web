@@ -21,24 +21,28 @@ class Room
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
+     * @Groups("post:read")
      */
     private $roomname;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank
+     * @Groups("post:read")
      */
     private $roomnumber;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank
+     * @Groups("post:read")
      */
     private $max_nbr;
 
     /**
      * @ORM\ManyToOne(targetEntity=Gym::class, inversedBy="rooms")
      * @ORM\JoinColumn(nullable=false,name="idgym", referencedColumnName="idg")
+     * @Groups("post:read")
      */
     private $idgym;
 

@@ -10,18 +10,133 @@ use App\Form\RoomType;
 use App\Repository\RoomRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use phpDocumentor\Reflection\DocBlock\Serializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+
+
 /**
  * @Route("/gym")
  */
 class GymController extends AbstractController
 {
+
+    /**
+     * @Route("/api/AllGyms", name="api_AllGyms")
+     */
+
+    public function AllGyms(NormalizerInterface $Normalizer)
+    {
+        $repository = $this->getDoctrine()->getRepository(Gym::class);
+        $gym = $repository->findAll();
+        $jsonContent = $Normalizer->normalize($gym, 'json', ['groups' => 'post:read']);
+
+        return new Response(json_encode($jsonContent));
+    }
+
+    /**
+     * @Route("/api/getGymById/{id}", name="api_getgym")
+     */
+
+    public function getGymById(NormalizerInterface $Normalizer, $id)
+    {
+        $repository = $this->getDoctrine()->getRepository(Products::class);
+        $p = $repository->find($id);
+        $jsonContent = $Normalizer->normalize($p, 'json', ['groups' => 'post:read']);
+
+        return new Response(json_encode($jsonContent));
+    }
+
+
+    /**
+     * @Route("/api/deleteGym/{id}", name="api_deletegym")
+     */
+
+    public function deleteGym(NormalizerInterface $Normalizer, $id)
+    {
+        $repository = $this->getDoctrine()->getRepository(Gym::class);
+        $g = $repository->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($g);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($g, 'json', ['groups' => 'post:read']);
+
+        return new Response("gym deleted" . json_encode($jsonContent));
+    }
+
+    /**
+     * @Route("/api/createGym", name="api_creategym")
+     */
+    public function create(Request $request, NormalizerInterface $Normalizer)
+    {
+        $gym = new Gym();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $gym->setLocation($request->get('location'));
+        $gym->setFacilities($request->get('facilities'));
+
+
+        $em->persist($gym);
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($gym, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($jsonContent));
+    }
+
+
+    /**
+     * @Route("/api/updateGym/{id}", name="api_updategym")
+     */
+    public function update(Request $request, NormalizerInterface $Normalizer, $id)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $gym = $em->getRepository(Gym::class)->find($id);
+
+        $gym->setLocation($request->get('location'));
+        $gym->setFacilities($request->get('facilities'));
+
+
+
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($gym, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($jsonContent));
+    }
+
+
+    /**
+         * @Route("/all/gyms", name="gyms_mobile", methods={"GET"})
+
+    public function mobile_gyms(GymRepository $gymRepository)
+    {
+        $gyms = $gymRepository->findAll();
+        $serialzer = new Serializer([new ObjectNormalizer()]);
+        $formatted  = $serializer->normalize($gyms);
+        return new JsonResponse($formatted);
+    }
+*/
+
+       /**
+        * @Route("/all/gyms", name="gyms_mobile", methods={"GET"})
+        */
+    public function mobile_all_gyms(NormalizerInterface $normalizable,GymRepository $gymRepository)
+    {
+        $gyms = $gymRepository->findAll();
+        $jsonContent = $normalizable->normalize($gyms, 'json' , [ 'groups'=> 'read:gyms' ]);
+        return new Response(json_encode($jsonContent));
+    }
+
     /**
      * @Route("/stats", name="app_gym_stats")
      */
