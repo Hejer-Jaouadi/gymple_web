@@ -21,6 +21,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use App\Form\MemberType;
 use App\Controller\MailerController;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use App\Entity\Membership;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,7 +36,7 @@ use Knp\Component\Pager\PaginatorInterface;
  */
 class UserController extends AbstractController
 {
-    
+
     /**
      * @Route("/", name="app_user_index", methods={"GET", "POST"})
      */
@@ -68,28 +69,28 @@ class UserController extends AbstractController
                     case 'email':
                         $users = $rep->emailfind($value);
                         break;
-            }
-            $userspagination = $paginator->paginate(
-                $users, // on passe les donnees
-                $request->query->getInt('page', 1),// Numéro de la page en cours, passé dans l'URL, 1 si aucune page
-                5
-            );
+                }
+                $userspagination = $paginator->paginate(
+                    $users, // on passe les donnees
+                    $request->query->getInt('page', 1),// Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                    5
+                );
 
-        return $this->render('user/index.html.twig', [
-            'users' => $userspagination,
-        ]);
+                return $this->render('user/index.html.twig', [
+                    'users' => $userspagination,
+                ]);
+            }
+
         }
-        
-    }    
         $user=$session->get('user');
         $users = $entityManager
             ->getRepository(User::class)
             ->findAll();
-            $userspagination = $paginator->paginate(
-                $users, // on passe les donnees
-                $request->query->getInt('page', 1),// Numéro de la page en cours, passé dans l'URL, 1 si aucune page
-                5
-            );
+        $userspagination = $paginator->paginate(
+            $users, // on passe les donnees
+            $request->query->getInt('page', 1),// Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            5
+        );
 
         return $this->render('user/index.html.twig', [
             'users' => $userspagination,
@@ -103,7 +104,7 @@ class UserController extends AbstractController
     {
         $spreadsheet = new Spreadsheet();
         $users= $rep
-        ->getAll();
+            ->getAll();
         /* @var $sheet \PhpOffice\PhpSpreadsheet\Writer\Xlsx\Worksheet */
         $sheet = $spreadsheet->getActiveSheet();
         $i = 2;
@@ -115,22 +116,22 @@ class UserController extends AbstractController
             $i++;
         }
         $sheet->setTitle("Users Data")->setCellValue('A1', 'Role')
-        ->setCellValue('B1', 'First Name')
-        ->setCellValue('C1', 'Last Name')
-        ->setCellValue('D1', 'Email');
-        
-        
+            ->setCellValue('B1', 'First Name')
+            ->setCellValue('C1', 'Last Name')
+            ->setCellValue('D1', 'Email');
+
+
         // Create your Office 2007 Excel (XLSX Format)
         $writer = new Xlsx($spreadsheet);
-        
+
         // In this case, we want to write the file in the public directory
         $publicDirectory=$this->getParameter('kernel.project_dir') . '/public';
         // e.g /var/www/project/public/my_first_excel_symfony4.xlsx
         $excelFilepath =  $publicDirectory . '/excel_symfony4.xlsx';
-        
+
         // Create the file
         $writer->save($excelFilepath);
-        
+
         // Return a text response to the browser saying that the excel was succesfully created
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
@@ -156,7 +157,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         $session = $request->getSession();
         $user=$session->get('user')[0];
-        
+
 
         if ($form->isSubmitted()) {
             $code = $form->get('code')->getData();
@@ -178,7 +179,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         $session = $request->getSession();
         $user=$session->get('user')[0];
-        
+
 
         if ($form->isSubmitted()) {
             $code = $form->get('code')->getData();
@@ -204,7 +205,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         $user->setRole("trainer");
         $user->setPassword($this->randomPassword());
-        
+
 
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -220,7 +221,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    
+
 
     public function register6(Request $request, EntityManagerInterface $entityManager,MailerInterface $m): Response
     {
@@ -228,16 +229,16 @@ class UserController extends AbstractController
         $form = $this->createForm(RegisterType::class, $user);
         $form->handleRequest($request);
         $mem= new Membership();
-        $type="6 months";
+        $type="3 months";
         $begin =new \DateTime();
         $end =new \DateTime();
-        $end->modify('+6 month');
+        $end->modify('+3 month');
         $user->setRole("member");
         $mem->setType($type);
         $mem->setExpireDate($end);
         $mem->setStartDate($begin);
         $user->setMembership($mem);
-       
+
 
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -248,10 +249,10 @@ class UserController extends AbstractController
             $session->set('user',$user);
             $session->set('id',$user->getId());
             $date = $user->getMembership()->getExpireDate();
-                $now = new \DateTime();
-                $diff = date_diff($now, $date); 
-                $stringdiff = $diff->format('%d days'); 
-                $session->set('ok',$stringdiff); 
+            $now = new \DateTime();
+            $diff = date_diff($now, $date);
+            $stringdiff = $diff->format('%m months %d days');
+            $session->set('ok',$stringdiff);
             return $this->redirectToRoute('pay', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -276,7 +277,7 @@ class UserController extends AbstractController
         $mem->setExpireDate($end);
         $mem->setStartDate($begin);
         $user->setMembership($mem);
-       
+
 
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -287,10 +288,10 @@ class UserController extends AbstractController
             $session->set('user',$user);
             $session->set('id',$user->getId());
             $date = $user->getMembership()->getExpireDate();
-                $now = new \DateTime();
-                $diff = date_diff($now, $date); 
-                $stringdiff = $diff->format('%d days'); 
-                $session->set('ok',$stringdiff); 
+            $now = new \DateTime();
+            $diff = date_diff($now, $date);
+            $stringdiff = $diff->format('%m months %d days');
+            $session->set('ok',$stringdiff);
             return $this->redirectToRoute('pay', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -314,7 +315,7 @@ class UserController extends AbstractController
         $mem->setExpireDate($end);
         $mem->setStartDate($begin);
         $user->setMembership($mem);
-       
+
 
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -325,10 +326,10 @@ class UserController extends AbstractController
             $session->set('user',$user);
             $session->set('id',$user->getId());
             $date = $user->getMembership()->getExpireDate();
-                $now = new \DateTime();
-                $diff = date_diff($now, $date); 
-                $stringdiff = $diff->format('%d days'); 
-                $session->set('ok',$stringdiff); 
+            $now = new \DateTime();
+            $diff = date_diff($now, $date);
+            $stringdiff = $diff->format('%m months %d days');
+            $session->set('ok',$stringdiff);
 
             return $this->redirectToRoute('pay', [], Response::HTTP_SEE_OTHER);
         }
@@ -344,7 +345,7 @@ class UserController extends AbstractController
      */
     public function sendEmail(MailerInterface $mailer,User $user): Response
     {
-        
+
         $email = (new Email())
             ->from('asma.hejaiej@esprit.tn')
             ->to('hejaiej.asma@gmail.com')
@@ -362,7 +363,7 @@ class UserController extends AbstractController
         // ...
     }
 
-    
+
 
 
     /**
@@ -389,34 +390,34 @@ class UserController extends AbstractController
     }
 
 
-    
+
     /**
      * @Route("/gymple", name="app_front", methods={"GET", "POST"})
      */
     public function showFront(Request $request, EntityManagerInterface $entityManager): Response
     {
-        
-        $users = $entityManager
-        ->getRepository(User::class)
-        ->findAll();
 
-    return $this->render('user/teams.html.twig', [
-        'users' => $users,
-    ]);
-       
+        $users = $entityManager
+            ->getRepository(User::class)
+            ->findAll();
+
+        return $this->render('user/teams.html.twig', [
+            'users' => $users,
+        ]);
+
     }
     /**
      * @Route("/home", name="app_front", methods={"GET", "POST"})
      */
     public function homeFront(Request $request, EntityManagerInterface $entityManager): Response
     {
-        
-     
 
-    return $this->render('user/home.html.twig', [
-        
-    ]);
-       
+
+
+        return $this->render('user/home.html.twig', [
+
+        ]);
+
     }
 
     /**
@@ -424,33 +425,33 @@ class UserController extends AbstractController
      */
     public function homeMember(Request $request, EntityManagerInterface $entityManager): Response
     {
-        
-     
 
-    return $this->render('user/homeMember.html.twig', [
-        
-    ]);
-    
-       
+
+
+        return $this->render('user/homeMember.html.twig', [
+
+        ]);
+
+
     }
 
-     /**
+    /**
      * @Route("/pay", name="app_front_pay", methods={"GET", "POST"})
      */
     public function pay(Request $request, EntityManagerInterface $entityManager): Response
     {
-        
-     
 
-    return $this->render('user/payment.html.twig', [
-        
-    ]);
-    
-       
+
+
+        return $this->render('user/payment.html.twig', [
+
+        ]);
+
+
     }
 
 
-    
+
     public function new_trainer2(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -471,7 +472,7 @@ class UserController extends AbstractController
         ]);
     }
 
-     /**
+    /**
      * @Route("/loginUser", name="app_user_loginFront")
      */
     public function loginFront(Request $request, EntityManagerInterface $entityManager,UserRepository $rep,SessionInterface $session): Response
@@ -479,39 +480,39 @@ class UserController extends AbstractController
         $user = new User();
         $form = $this->createForm(Login::class, $user);
         $form->handleRequest($request);
-        
+
 
         if ($form->isSubmitted())
         {
-          
+
             $ok=$rep->findByEmail($user->getEmail(),$user->getPassword());
             if ($ok!=null){
-                
-                
+
+
                 $session = $request->getSession();
                 $session->set('user',$ok);
                 $session->set('id',$ok[0]->getId());
-            
+
                 $date = $ok[0]->getMembership()->getExpireDate();
                 $now = new \DateTime();
-                $diff = date_diff($now, $date); 
-                $stringdiff = $diff->format('%d days'); 
-                $session->set('ok',$stringdiff);             
-                 $this->addFlash(
+                $diff = date_diff($now, $date);
+                $stringdiff = $diff->format('%m months %d days');
+                $session->set('ok',$stringdiff);
+                $this->addFlash(
                     'notice',
                     'Your have '.$stringdiff.' days left on your membership'
                 );
-            return $this->redirectToRoute('homeMember', [], Response::HTTP_SEE_OTHER);}
- 
+                return $this->redirectToRoute('homeMember', [], Response::HTTP_SEE_OTHER);}
+
         }
-         return $this->render('user/loginFront.html.twig', [
+        return $this->render('user/loginFront.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
-        }
+    }
 
 
-     /**
+    /**
      * @Route("/login", name="app_user_login")
      */
     public function login(Request $request, EntityManagerInterface $entityManager,UserRepository $rep,SessionInterface $session): Response
@@ -520,28 +521,28 @@ class UserController extends AbstractController
         $form = $this->createForm(Login::class, $user);
         $form->handleRequest($request);
         $user->setRole("admin");
-        
+
 
         if ($form->isSubmitted())
         {
-          
+
             $ok=$rep->findByEmail($user->getEmail(),$user->getPassword());
             if ($ok!=null){
-                
-                
+
+
                 $session = $request->getSession();
                 $session->set('user',$ok);
                 $session->set('id',$ok[0]->getId());
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);}
- 
+                return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);}
+
         }
-         return $this->render('user/login.html.twig', [
+        return $this->render('user/login.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
-        }
+    }
 
-        public function loginemail(Request $request, EntityManagerInterface $entityManager,UserRepository $rep,SessionInterface $session,MailerInterface $m): Response
+    public function loginemail(Request $request, EntityManagerInterface $entityManager,UserRepository $rep,SessionInterface $session,MailerInterface $m): Response
     {
         $user = new User();
         $form = $this->createForm(EmailType::class, $user);
@@ -551,11 +552,11 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted())
         {
-          
+
             $ok=$rep->findByEmailA($user->getEmail());
             if ($ok!=null){
-                
-                
+
+
                 $session = $request->getSession();
                 $session->set('user',$ok);
                 $session->set('id',$ok[0]->getId());
@@ -563,17 +564,17 @@ class UserController extends AbstractController
                 $ok[0]->setCode($random);
                 $ok[0]->sendCode($m);
                 $entityManager->flush();
-            return $this->redirectToRoute('code', [], Response::HTTP_SEE_OTHER);}
- 
+                return $this->redirectToRoute('code', [], Response::HTTP_SEE_OTHER);}
+
         }
-         return $this->render('user/code.html.twig', [
+        return $this->render('user/code.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
-        }
+    }
 
 
-        public function loginemailFront(Request $request, EntityManagerInterface $entityManager,UserRepository $rep,SessionInterface $session,MailerInterface $m): Response
+    public function loginemailFront(Request $request, EntityManagerInterface $entityManager,UserRepository $rep,SessionInterface $session,MailerInterface $m): Response
     {
         $user = new User();
         $form = $this->createForm(EmailType::class, $user);
@@ -582,11 +583,11 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted())
         {
-          
+
             $ok=$rep->findByEmailA($user->getEmail());
             if ($ok!=null){
-                
-                
+
+
                 $session = $request->getSession();
 
                 $session->set('user',$ok);
@@ -595,14 +596,14 @@ class UserController extends AbstractController
                 $ok[0]->setCode($random);
                 $ok[0]->sendCode($m);
                 $entityManager->flush();
-            return $this->redirectToRoute('codeFront', [], Response::HTTP_SEE_OTHER);}
- 
+                return $this->redirectToRoute('codeFront', [], Response::HTTP_SEE_OTHER);}
+
         }
-         return $this->render('user/LoginEmailFront.html.twig', [
+        return $this->render('user/LoginEmailFront.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
-        }
+    }
 
 
 
@@ -659,11 +660,11 @@ class UserController extends AbstractController
     }
 
 
-     /**
+    /**
      * @Route("/calendar", name="calender", methods={"GET"})
      */
     public function calendar(Request $request): Response
-    {     
+    {
         return $this->render('user/calendar.html.twig');
     }
 
@@ -697,14 +698,14 @@ class UserController extends AbstractController
      */
     public function block(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
-            
-            $user->setBlock("y");
-            $entityManager->flush();
 
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
-        
+        $user->setBlock("y");
+        $entityManager->flush();
 
-        
+        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+
+
+
     }
 
     /**
@@ -712,30 +713,30 @@ class UserController extends AbstractController
      */
     public function report(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
-            $nb=$user->getReports();
-            $user->setReports($nb+1);
-            $entityManager->flush();
+        $nb=$user->getReports();
+        $user->setReports($nb+1);
+        $entityManager->flush();
 
-            return $this->redirectToRoute('team', [], Response::HTTP_SEE_OTHER);
-        
+        return $this->redirectToRoute('team', [], Response::HTTP_SEE_OTHER);
 
-        
+
+
     }
-    
+
 
     /**
      * @Route("/{id}/unblock", name="app_user_unblock", methods={"GET", "POST"})
      */
     public function unblock(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
-            
-            $user->setBlock("n");
-            $entityManager->flush();
 
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
-        
+        $user->setBlock("n");
+        $entityManager->flush();
 
-        
+        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+
+
+
     }
 
     /**
@@ -750,5 +751,162 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
-    
+
+
+    public function apilogin2(UserRepository $rep,Request $request, NormalizerInterface $normalizer ): Response
+    {
+        $user=new User();
+        $serializer = $this->get('serializer');
+        $user= $serializer->deserialize($request->getContent(),User::class,'json');
+        $ok=$rep->findByEmail($user->getEmail(),$user->getPassword());
+        if ($ok!=null){
+            return($this->json($ok));
+        }
+        return new Response("non");
+    }
+
+    public function apilogin3(UserRepository $rep,Request $request, NormalizerInterface $normalizer): Response
+    {
+        $user=new User();
+        $user=$rep->findByEmail($request->get('email'),$request->get('password'));
+        if($user!=null){
+            $jsonContent=$normalizer->normalize($user,"json",["attributes"=>['role','id','email','firstName','lastName']]);
+            return new Response(json_encode($jsonContent));
+
+        }
+        $response = new NewResponse();
+        $response->setStatusCode(400);
+        return $response;
+    }
+    public function apilogin(UserRepository $rep,Request $request, NormalizerInterface $normalizer ): Response
+    {
+        $user=new User();
+        $ok=$rep->findByEmail($request->get('email'),$request->get('password'));
+        if ($ok!=null){
+            return new Response($this->json(["ok"=>$ok]));
+        }
+        return new Response(null);
+    }
+    public function signup1y(MailerInterface $mailer,EntityManagerInterface $entityManager,UserRepository $rep,Request $request, NormalizerInterface $normalizer ): Response
+    {
+        $user=new User();
+        $user->setFirstName($request->get('firstname'));
+        $user->setLastName($request->get('lastname'));
+        $user->setEmail($request->get('email'));
+        $user->setPassword($request->get('password'));
+        $user->setHeight($request->get('height'));
+        $user->setWeight($request->get('weight'));
+        $user->setTrainingLevel('Intermediate');
+        $user->setIdCard(32455678);
+        $mem= new Membership();
+        $type="1 year";
+        $begin =new \DateTime();
+        $end =new \DateTime();
+        $end->modify('+1 year');
+        $user->setRole("member");
+        $mem->setType($type);
+        $mem->setExpireDate($end);
+        $mem->setStartDate($begin);
+        $user->setMembership($mem);
+        $entityManager->persist($mem);
+        $entityManager->persist($user);
+        $entityManager->flush();
+        $user->welcome($mailer);
+
+        return new Response("ok");
+    }
+    public function signup1m(MailerInterface $mailer,EntityManagerInterface $entityManager,UserRepository $rep,Request $request, NormalizerInterface $normalizer ): Response
+    {
+
+        $mem= new Membership();
+        $type="1 month";
+        $begin =new \DateTime();
+        $end =new \DateTime();
+        $end->modify('+1 month');
+        $mem->setType($type);
+        $mem->setExpireDate($end);
+        $mem->setStartDate($begin);
+        $user=new User();
+        $user->setMembership($mem);
+        $user->setRole("member");
+        $user->setFirstName($request->get('firstname'));
+        $user->setLastName($request->get('lastname'));
+        $user->setEmail($request->get('email'));
+        $user->welcome($mailer);
+        $user->setPassword($request->get('password'));
+        $user->setHeight($request->get('height'));
+        $user->setWeight($request->get('weight'));
+        $user->setTrainingLevel('Intermediate');
+        $user->setIdCard(32455678);
+        $entityManager->persist($mem);
+        $entityManager->persist($user);
+        $entityManager->flush();
+        return($this->json($user));
+        //return new Response("ok");
+    }
+    public function signup3m(MailerInterface $mailer,EntityManagerInterface $entityManager,UserRepository $rep,Request $request, NormalizerInterface $normalizer ): Response
+    {
+        $user=new User();
+        $user->setFirstName($request->get('firstname'));
+        $user->setLastName($request->get('lastname'));
+        $user->setEmail($request->get('email'));
+        $user->setPassword($request->get('password'));
+        $user->setHeight($request->get('height'));
+        $user->setWeight($request->get('weight'));
+        $user->setRole('member');
+        $user->setTrainingLevel('Intermediate');
+        $user->setIdCard(32455678);
+        $mem= new Membership();
+        $type="3 months";
+        $begin =new \DateTime();
+        $end =new \DateTime();
+        $end->modify('+3 month');
+        $user->setRole("member");
+        $mem->setType($type);
+        $mem->setExpireDate($end);
+        $mem->setStartDate($begin);
+        $user->setMembership($mem);
+        $entityManager->persist($mem);
+        $entityManager->persist($user);
+        $entityManager->flush();
+        $user->welcome($mailer);
+        return($this->json($user));
+        //return new Response("ok");
+
+    }
+    public function allusers(NormalizerInterface $norm,UserRepository $rep):Response
+    {
+        $rep=$this->getDoctrine()->getRepository(User::class);
+        $users=$rep->findAll();
+        //$json=$norm->normalize($users,'json',['groups'=>'post:read']);
+        return new Response($this->json(["ok"=>$users]));
+    }
+    public function test(EntityManagerInterface $entityManager,NormalizerInterface $Normalizer){
+        $users = $entityManager
+            ->getRepository(User::class)
+            ->findAll();
+        $jsonContent=$Normalizer->normalize($users,"json",["attributes"=>['role','id','email','firstName','lastName']]);
+        return new Response(json_encode($jsonContent));
+
+    }
+    public function update (Request $req,NormalizerInterface $norm,$id){
+        $em=$this->getDoctrine()->getManager();
+        $rep=$this->getDoctrine()->getRepository(User::class);
+        $user=$rep->find($id);
+        $user->setFirstName($req->get('firstname'));
+        $user->setLastName($req->get('lastname'));
+        $user->setEmail($req->get('email'));
+        $em->flush();
+        $jsonContent=$norm->normalize($user,"json",["attributes"=>['role','id','email','firstName','lastName']]);
+        return new Response(json_encode($jsonContent));
+    }
+    public function del(EntityManagerInterface $em,NormalizerInterface $norm,$id){
+        $rep=$this->getDoctrine()->getRepository(User::class);
+        $user=$rep->find($id);
+        $em->remove($user);
+        $em->flush();
+        return new Response("User deleted");
+    }
+
+
 }

@@ -35,7 +35,7 @@ class User
 
     /**
      * @var string
-     * 
+     *
      * @Assert\Regex(
      *     pattern     = "/^[a-z]+$/i",
      *     htmlPattern = "[a-zA-Z]+"
@@ -75,7 +75,7 @@ class User
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=200, nullable=false)
-     * 
+     *
      */
     private $password;
 
@@ -83,7 +83,7 @@ class User
      * @var int|null
      *
      * @ORM\Column(name="id_card", type="integer", nullable=true, options={"default"="NULL"})
-     * 
+     *
      */
     private $idCard = NULL;
 
@@ -91,7 +91,7 @@ class User
      * @var float|null
      *@Assert\Type("float")
      * @ORM\Column(name="height", type="float", precision=10, scale=0, nullable=true, options={"default"="NULL"})
-     * 
+     *
      */
     private $height = NULL;
 
@@ -99,7 +99,7 @@ class User
      * @var float|null
      *@Assert\Type("float")
      * @ORM\Column(name="weight", type="float", precision=10, scale=0, nullable=true, options={"default"="NULL"})
-     * 
+     *
      */
     private $weight = NULL;
 
@@ -107,7 +107,7 @@ class User
      * @var string|null
      *
      * @ORM\Column(name="training_level", type="string", length=30, nullable=true, options={"default"="NULL"})
-     * 
+     *
      */
     private $trainingLevel = NULL;
 
@@ -115,7 +115,7 @@ class User
      * @var float|null
      *@Assert\Type("float")
      * @ORM\Column(name="cost_per_hour", type="float", precision=10, scale=0, nullable=true, options={"default"="NULL"})
-     * 
+     *
      */
     private $costPerHour = NULL;
 
@@ -123,7 +123,7 @@ class User
      * @var string|null
      *
      * @ORM\Column(name="description", type="string", length=500, nullable=true, options={"default"="NULL"})
-     * 
+     *
      */
     private $description = 'NULL';
 
@@ -131,7 +131,7 @@ class User
      * @var string|null
      *
      * @ORM\Column(name="experience", type="string", length=200, nullable=true, options={"default"="NULL"})
-     * 
+     *
      */
     private $experience = 'NULL';
 
@@ -182,7 +182,7 @@ class User
      * })
      */
     private $gym;
-   
+
     public function getId(): ?int
     {
         return $this->id;
@@ -406,7 +406,7 @@ class User
 
     public function sendPassword(MailerInterface $mailer)
     {
-        
+
         $email = (new TemplatedEmail())
             ->from('asma.hejaiej@esprit.tn')
             ->to('hejaiej.asma@gmail.com')
@@ -429,7 +429,7 @@ class User
 
     public function sendCode(MailerInterface $mailer)
     {
-        
+
         $email = (new TemplatedEmail())
             ->from('asma.hejaiej@esprit.tn')
             ->to('hejaiej.asma@gmail.com')
@@ -442,6 +442,28 @@ class User
             ->text('This is your code :'.$this->code)
             ->context([
                 'Code' => $this->code
+            ]);
+
+        $mailer->send($email);
+
+
+        // ...
+    }
+    public function welcome(MailerInterface $mailer)
+    {
+
+        $email = (new TemplatedEmail())
+            ->from('asma.hejaiej@esprit.tn')
+            ->to('hejaiej.asma@gmail.com')
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject("Gymple Registration")
+            ->htmlTemplate('user/mailw.html.twig')
+            ->text('Welcome To gymple! Log In and start your journey')
+            ->context([
+                'Code' => $this->getMembership()->getType()
             ]);
 
         $mailer->send($email);
