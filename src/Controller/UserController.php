@@ -21,6 +21,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use App\Form\MemberType;
 use App\Controller\MailerController;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use App\Entity\Membership;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -228,10 +229,10 @@ class UserController extends AbstractController
         $form = $this->createForm(RegisterType::class, $user);
         $form->handleRequest($request);
         $mem= new Membership();
-        $type="6 months";
+        $type="3 months";
         $begin =new \DateTime();
         $end =new \DateTime();
-        $end->modify('+6 month');
+        $end->modify('+3 month');
         $user->setRole("member");
         $mem->setType($type);
         $mem->setExpireDate($end);
@@ -248,10 +249,10 @@ class UserController extends AbstractController
             $session->set('user',$user);
             $session->set('id',$user->getId());
             $date = $user->getMembership()->getExpireDate();
-                $now = new \DateTime();
-                $diff = date_diff($now, $date); 
-                $stringdiff = $diff->format('%d days'); 
-                $session->set('ok',$stringdiff); 
+            $now = new \DateTime();
+            $diff = date_diff($now, $date); 
+            $stringdiff = $diff->format('%m months %d days'); 
+            $session->set('ok',$stringdiff); 
             return $this->redirectToRoute('pay', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -289,7 +290,7 @@ class UserController extends AbstractController
             $date = $user->getMembership()->getExpireDate();
                 $now = new \DateTime();
                 $diff = date_diff($now, $date); 
-                $stringdiff = $diff->format('%d days'); 
+                $stringdiff = $diff->format('%m months %d days'); 
                 $session->set('ok',$stringdiff); 
             return $this->redirectToRoute('pay', [], Response::HTTP_SEE_OTHER);
         }
@@ -327,7 +328,7 @@ class UserController extends AbstractController
             $date = $user->getMembership()->getExpireDate();
                 $now = new \DateTime();
                 $diff = date_diff($now, $date); 
-                $stringdiff = $diff->format('%d days'); 
+                $stringdiff = $diff->format('%m months %d days'); 
                 $session->set('ok',$stringdiff); 
 
             return $this->redirectToRoute('pay', [], Response::HTTP_SEE_OTHER);
@@ -495,7 +496,7 @@ class UserController extends AbstractController
                 $date = $ok[0]->getMembership()->getExpireDate();
                 $now = new \DateTime();
                 $diff = date_diff($now, $date); 
-                $stringdiff = $diff->format('%d days'); 
+                $stringdiff = $diff->format('%m months %d days'); 
                 $session->set('ok',$stringdiff);             
                  $this->addFlash(
                     'notice',
@@ -750,5 +751,158 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    
+    public function apilogin2(UserRepository $rep,Request $request, NormalizerInterface $normalizer ): Response
+    {
+        $user=new User();
+        $serializer = $this->get('serializer');
+        $user= $serializer->deserialize($request->getContent(),User::class,'json');
+        $ok=$rep->findByEmail($user->getEmail(),$user->getPassword());
+            if ($ok!=null){
+                return($this->json($ok));
+            }
+            return new Response("non");
+    }
+
+ public function apilogin3(UserRepository $rep,Request $request, NormalizerInterface $normalizer): Response
+    {
+        $user=new User();
+        $user=$rep->findByEmail($request->get('email'),$request->get('password'));
+        if($user!=null){
+            $jsonContent=$normalizer->normalize($user,"json",["attributes"=>['role','id','email','firstName','lastName']]);
+            return new Response(json_encode($jsonContent));
+
+        }
+        $response = new NewResponse();
+        $response->setStatusCode(400);
+        return $response;
+    }
+    public function apilogin(UserRepository $rep,Request $request, NormalizerInterface $normalizer ): Response
+    {
+        $user=new User();
+        $ok=$rep->findByEmail($request->get('email'),$request->get('password'));
+            if ($ok!=null){
+                return new Response($this->json(["ok"=>$ok]));
+            }
+            return new Response(null);
+    }
+    public function signup1y(EntityManagerInterface $entityManager,UserRepository $rep,Request $request, NormalizerInterface $normalizer ): Response
+    {
+        $user=new User();
+        $user->setFirstName($request->get('firstname'));
+        $user->setLastName($request->get('lastname'));
+        $user->setEmail($request->get('email'));
+        $user->setPassword($request->get('password'));
+        $user->setHeight($request->get('height'));
+        $user->setWeight($request->get('weight'));
+        $user->setTrainingLevel('Intermediate');
+        $user->setIdCard(32455678);
+        $mem= new Membership();
+        $type="1 year";
+        $begin =new \DateTime();
+        $end =new \DateTime();
+        $end->modify('+1 year');
+        $user->setRole("member");
+        $mem->setType($type);
+        $mem->setExpireDate($end);
+        $mem->setStartDate($begin);
+        $user->setMembership($mem);
+        $entityManager->persist($mem);
+        $entityManager->persist($user);
+        $entityManager->flush();
+        return new Response("ok");
+    }
+    public function signup1m(EntityManagerInterface $entityManager,UserRepository $rep,Request $request, NormalizerInterface $normalizer ): Response
+    {
+        
+        $mem= new Membership();
+        $type="1 month";
+        $begin =new \DateTime();
+        $end =new \DateTime();
+        $end->modify('+1 month');
+        $mem->setType($type);
+        $mem->setExpireDate($end);
+        $mem->setStartDate($begin);
+        $user=new User();
+        $user->setMembership($mem);
+        $user->setRole("member");
+        $user->setFirstName($request->get('firstname'));
+        $user->setLastName($request->get('lastname'));
+        $user->setEmail($request->get('email'));
+        $user->setPassword($request->get('password'));
+        $user->setHeight($request->get('height'));
+        $user->setWeight($request->get('weight'));
+        $user->setTrainingLevel('Intermediate');
+        $user->setIdCard(32455678);
+        $entityManager->persist($mem);
+        $entityManager->persist($user);
+        $entityManager->flush();
+        return($this->json($user));
+        //return new Response("ok");
+    }
+    public function signup3m(EntityManagerInterface $entityManager,UserRepository $rep,Request $request, NormalizerInterface $normalizer ): Response
+    {
+        $user=new User();
+        $user->setFirstName($request->get('firstname'));
+        $user->setLastName($request->get('lastname'));
+        $user->setEmail($request->get('email'));
+        $user->setPassword($request->get('password'));
+        $user->setHeight($request->get('height'));
+        $user->setWeight($request->get('weight'));
+        $user->setRole('member');
+        $user->setTrainingLevel('Intermediate');
+        $user->setIdCard(32455678);
+        $mem= new Membership();
+        $type="3 months";
+        $begin =new \DateTime();
+        $end =new \DateTime();
+        $end->modify('+3 month');
+        $user->setRole("member");
+        $mem->setType($type);
+        $mem->setExpireDate($end);
+        $mem->setStartDate($begin);
+        $user->setMembership($mem);
+        $entityManager->persist($mem);
+        $entityManager->persist($user);
+        $entityManager->flush();
+        return($this->json($user));
+        //return new Response("ok");
+
+    }
+    public function allusers(NormalizerInterface $norm,UserRepository $rep):Response
+    {
+        $rep=$this->getDoctrine()->getRepository(User::class);
+        $users=$rep->findAll();
+        //$json=$norm->normalize($users,'json',['groups'=>'post:read']);
+        return new Response($this->json(["ok"=>$users]));
+    }
+    public function test(EntityManagerInterface $entityManager,NormalizerInterface $Normalizer){
+        $users = $entityManager
+            ->getRepository(User::class)
+            ->findAll();
+        $jsonContent=$Normalizer->normalize($users,"json",["attributes"=>['role','id','email','firstName','lastName']]);
+        return new Response(json_encode($jsonContent));
+
+    }
+    public function update (Request $req,NormalizerInterface $norm,$id){
+        $em=$this->getDoctrine()->getManager();
+        $rep=$this->getDoctrine()->getRepository(User::class);
+        $user=$rep->find($id);
+        $user->setFirstName($req->get('firstname'));
+        $user->setLastName($req->get('lastname'));
+        $user->setEmail($req->get('email'));
+        $em->flush();
+        $jsonContent=$norm->normalize($user,"json",["attributes"=>['role','id','email','firstName','lastName']]);
+        return new Response(json_encode($jsonContent));
+    }
+    public function del(EntityManagerInterface $em,NormalizerInterface $norm,$id){
+        $rep=$this->getDoctrine()->getRepository(User::class);
+        $user=$rep->find($id);
+        $em->remove($user);
+        $em->flush();
+        return new Response("User deleted");
+    }
+    
     
 }

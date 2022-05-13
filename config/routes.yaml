@@ -50,8 +50,31 @@ pay:
    path: /payment
    controller: App\Controller\UserController::pay  
 captcha_routing:
-  resource: "@CaptchaBundle/Resources/config/routing.yml"           
-  
+   resource: "@CaptchaBundle/Resources/config/routing.yml"
+api1:
+   path: api/login
+   controller: App\Controller\UserController::apilogin3
+api2:
+   path: api/signup1y
+   controller: App\Controller\UserController::signup1y  
+api3:
+   path: api/signup1m
+   controller: App\Controller\UserController::signup1m
+api4:
+   path: api/signup3m
+   controller: App\Controller\UserController::signup3m                      
+api5:
+   path: api/allusers
+   controller: App\Controller\UserController::allusers  
+t:
+   path: api/test
+   controller: App\Controller\UserController::test  
+ttt:
+   path: api/edit/{id}
+   controller: App\Controller\UserController::update 
+ttrrt:
+   path: api/delete/{id}
+   controller: App\Controller\UserController::del        
 
 
 
