@@ -26,6 +26,7 @@ class Gym
      * @ORM\Column(name="idG", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $idg;
 
@@ -33,6 +34,7 @@ class Gym
      * @var string
      *
      * @ORM\Column(name="location", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $location;
 
@@ -40,6 +42,7 @@ class Gym
      * @var string
      *
      * @ORM\Column(name="facilities", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $facilities;
 
