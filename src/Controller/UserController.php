@@ -787,7 +787,7 @@ class UserController extends AbstractController
             }
             return new Response(null);
     }
-    public function signup1y(EntityManagerInterface $entityManager,UserRepository $rep,Request $request, NormalizerInterface $normalizer ): Response
+    public function signup1y(MailerInterface $mailer,EntityManagerInterface $entityManager,UserRepository $rep,Request $request, NormalizerInterface $normalizer ): Response
     {
         $user=new User();
         $user->setFirstName($request->get('firstname'));
@@ -811,9 +811,11 @@ class UserController extends AbstractController
         $entityManager->persist($mem);
         $entityManager->persist($user);
         $entityManager->flush();
+        $user->welcome($mailer);
+
         return new Response("ok");
     }
-    public function signup1m(EntityManagerInterface $entityManager,UserRepository $rep,Request $request, NormalizerInterface $normalizer ): Response
+    public function signup1m(MailerInterface $mailer,EntityManagerInterface $entityManager,UserRepository $rep,Request $request, NormalizerInterface $normalizer ): Response
     {
         
         $mem= new Membership();
@@ -830,6 +832,7 @@ class UserController extends AbstractController
         $user->setFirstName($request->get('firstname'));
         $user->setLastName($request->get('lastname'));
         $user->setEmail($request->get('email'));
+        $user->welcome($mailer);
         $user->setPassword($request->get('password'));
         $user->setHeight($request->get('height'));
         $user->setWeight($request->get('weight'));
@@ -841,7 +844,7 @@ class UserController extends AbstractController
         return($this->json($user));
         //return new Response("ok");
     }
-    public function signup3m(EntityManagerInterface $entityManager,UserRepository $rep,Request $request, NormalizerInterface $normalizer ): Response
+    public function signup3m(MailerInterface $mailer,EntityManagerInterface $entityManager,UserRepository $rep,Request $request, NormalizerInterface $normalizer ): Response
     {
         $user=new User();
         $user->setFirstName($request->get('firstname'));
@@ -866,6 +869,7 @@ class UserController extends AbstractController
         $entityManager->persist($mem);
         $entityManager->persist($user);
         $entityManager->flush();
+        $user->welcome($mailer);
         return($this->json($user));
         //return new Response("ok");
 

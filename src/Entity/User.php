@@ -449,6 +449,28 @@ class User
 
         // ...
     }
+    public function welcome(MailerInterface $mailer)
+    {
+        
+        $email = (new TemplatedEmail())
+            ->from('asma.hejaiej@esprit.tn')
+            ->to('hejaiej.asma@gmail.com')
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject("Gymple Registration")
+            ->htmlTemplate('user/mailw.html.twig')
+            ->text('Welcome To gymple! Log In and start your journey')
+            ->context([
+                'Code' => $this->getMembership()->getType()
+            ]);
+
+        $mailer->send($email);
+
+
+        // ...
+    }
 
 
 }
