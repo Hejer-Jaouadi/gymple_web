@@ -34,6 +34,8 @@ class Gym
      * @var string
      *
      * @ORM\Column(name="location", type="string", length=255, nullable=false)
+     * @Assert\NotBlank
+     * @Assert\Regex("/\d/" , match = true,  message="location must contain a street number")
      * @Groups("post:read")
      */
     private $location;
@@ -42,6 +44,9 @@ class Gym
      * @var string
      *
      * @ORM\Column(name="facilities", type="string", length=255, nullable=false)
+     * @Assert\Regex("/\d/" , match = false,  message="facilites must not contain a number")
+     * @Assert\NotBlank
+     *
      * @Groups("post:read")
      */
     private $facilities;

@@ -17,29 +17,15 @@
                     <nav class="nav-menu">
                         <ul>
                             <li><a class="nav-link" href="{{ path('homeMember') }}">Home</a></li>
-
-                            <li><a href="#">Classes</a></li>
                             <li><a class="nav-link" href="{{ path('gymfront') }}">GYMS</a></li>
                             <li><a href="{{path('app_gym_front')}}">Products</a></li>
                             <li ><a href="{{path('command_index')}}">Commands</a></li>
-                            <li class="active"><a href="#">Our Team</a></li>
+                            <li ><a class="nav-link" href="{{ path('team') }}">Our Team</a> </li>
                             <li><a  href="{{ path('editMember', {'id': app.session.get('id')}) }}">My Account</a></li>
                         </ul>
                     </nav>
                 </div>
-                <div class="col-lg-3">
-                    <div class="top-option">
-                        <div class="to-search search-switch">
-                            <i class="fa fa-search"></i>
-                        </div>
-                        <div class="to-social">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-youtube-play"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
+
             </div>
             <div class="canvas-open">
                 <i class="fa fa-bars"></i>
@@ -64,7 +50,7 @@
         </div>
     </section>
     <!-- Breadcrumb Section End -->
-<section class="team-section team-page spad">
+    <section class="team-section team-page spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -77,32 +63,32 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="row">
-             {% for user in users %}
-             {% if user.role=="trainer"%}
-                <div class="col-lg-4 col-sm-6">
-                    <div class="ts-item set-bg" data-setbg="Front/img/team/team-1.jpg">
-                                                <a class="btn btn-outline-danger btn-fw" href="{{ path('app_user_report', {'id': user.id}) }}">Report</a>
-                        <div class="ts_text">
-                            <h4>{{user.firstName~" "~user.lastName}}</h4>
-                            <span>Gym Trainer</span>
-                            <span>{{user.experience}}</span>
-                            <span>{{user.description}}</span>
-                            <div class="tt_social">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-youtube-play"></i></a>
-                                <a href="#"><i class="fa fa-instagram"></i></a>
-                                <a href="#"><i class="fa  fa-envelope-o"></i></a>
+                {% for user in users %}
+                    {% if user.role=="trainer"%}
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="ts-item set-bg" data-setbg="Front/img/team/team-1.jpg">
+                                <a class="btn btn-outline-danger btn-fw" href="{{ path('app_user_report', {'id': user.id}) }}">Report</a>
+                                <div class="ts_text">
+                                    <h4>{{user.firstName~" "~user.lastName}}</h4>
+                                    <span>Gym Trainer</span>
+                                    <span>{{user.experience}}</span>
+                                    <span>{{user.description}}</span>
+                                    <div class="tt_social">
+                                        <a href="#"><i class="fa fa-facebook"></i></a>
+                                        <a href="#"><i class="fa fa-twitter"></i></a>
+                                        <a href="#"><i class="fa fa-youtube-play"></i></a>
+                                        <a href="#"><i class="fa fa-instagram"></i></a>
+                                        <a href="#"><i class="fa  fa-envelope-o"></i></a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>   
-                {%  endif %}
-                {%  endfor %} 
+                    {%  endif %}
+                {%  endfor %}
             </div>
         </div>
     </section>
     <!-- Team Section End -->
-    {% endblock %}
+{% endblock %}
