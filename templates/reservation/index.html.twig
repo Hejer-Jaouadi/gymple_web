@@ -1,0 +1,59 @@
+{% extends 'baseBack.html.twig' %}
+
+
+{% block body %}
+
+
+    <div class="row" style="display: flex;align-items: center;justify-content: center;margin-top: 150px;">
+
+        <div class="col-lg-6">
+
+            <div class="card">
+                <div class="card-body">
+                    <a href="{{ path('showReservations') }}"><i class="ri-arrow-left-circle-fill" style="font-size: 50px;"></i></a>
+                    <h5 class="card-title">Reservations list</h5>
+
+                    <!-- Table with stripped rows -->
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Type</th>
+                            <th>Course</th>
+                            <th>Trainer</th>
+                            <th>Date</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for reservation in r %}
+                            <tr>
+                                <td>{{ reservation.id }}</td>
+                                <td>{{ reservation.type }}</td>
+                                <td>{{ reservation.trainer }}</td>
+                                <td>{{ reservation.course }}</td>
+                                <td>{{ reservation.date | date('d-m-Y') }}</td>
+                                <td>
+                                <td>
+                                    <a class="btn btn-success" href="{{ path('updateReservation',{'id':reservation.id}) }}">Update</a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-danger" href="{{ path('delete_reservation',{'id':reservation.id}) }}">Delete</a>
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                    <!-- End small tables -->
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+{% endblock %}
